@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/testDummy.dae-c9ae876b50928b5c2d51a9f985b80d04.scn"
+path="res://.import/dummy.dae-f22eebf92deb9e553183a175186d2a88.scn"
 
 [deps]
 
-source_file="res://testDummy.dae"
-dest_files=[ "res://.import/testDummy.dae-c9ae876b50928b5c2d51a9f985b80d04.scn" ]
+source_file="res://dummy.dae"
+dest_files=[ "res://.import/dummy.dae-f22eebf92deb9e553183a175186d2a88.scn" ]
 
 [params]
 
