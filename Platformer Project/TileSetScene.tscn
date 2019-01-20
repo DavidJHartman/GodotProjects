@@ -1,0 +1,147 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/tileset.png" type="Texture" id=1]
+
+[node name="Node2D" type="Node2D" index="0"]
+
+position = Vector2( 192, 64 )
+
+[node name="middleGrass" type="Sprite" parent="." index="0"]
+
+position = Vector2( -176, -48 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 32, 32, 32 )
+_sections_unfolded = [ "Animation", "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="middleGrass" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="middleGrass/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16, -16, -16 )
+
+[node name="edgelessDirt" type="Sprite" parent="." index="1"]
+
+position = Vector2( -176, -16 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 352, 96, 32, 32 )
+_sections_unfolded = [ "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="edgelessDirt" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="edgelessDirt/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+
+[node name="leftGrass" type="Sprite" parent="." index="2"]
+
+position = Vector2( -144, -48 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 32, 0, 32, 32 )
+_sections_unfolded = [ "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="leftGrass" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="leftGrass/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16, -16, -16, -16, -16 )
+
+[node name="leftDirt" type="Sprite" parent="." index="3"]
+
+position = Vector2( -144, -16 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 32, 64, 32, 32 )
+_sections_unfolded = [ "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="leftDirt" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="leftDirt/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+
+[node name="rightGrass" type="Sprite" parent="." index="4"]
+
+position = Vector2( -112, -48 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 64, 0, 32, 32 )
+_sections_unfolded = [ "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="rightGrass" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rightGrass/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+
+[node name="rightDirt" type="Sprite" parent="." index="5"]
+
+position = Vector2( -112, -16 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 64, 64, 32, 32 )
+_sections_unfolded = [ "Region" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="rightDirt" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rightDirt/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
+
+
