@@ -14,7 +14,7 @@ var jumpStrength = 225
 var friction = 0
 var onGround = bool()
 var playerState
-var airMoveFactor = .25
+var airMoveFactor = .4
 
 enum { walk, walking, idle, jump, rising, fall, falling, landed }
 
