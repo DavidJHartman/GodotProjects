@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.0361821, 0.00486887, -0.999333, 0, 0.999988, 0.00487206, -0.999345, 0.000176281, -0.0361816, -18.9602, 8.60061, -0.686165 )
+current = true
+fov = 123.915
+near = 0.1
+
