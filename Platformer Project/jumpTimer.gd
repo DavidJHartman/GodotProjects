@@ -5,7 +5,7 @@ extends Timer
 # var b = "textvar"
 
 func _ready():
-	wait_time = 1
+	wait_time = 1 + ((randf()*2.0))
 	one_shot = true
 	pass
 

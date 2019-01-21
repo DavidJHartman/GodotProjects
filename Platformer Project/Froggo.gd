@@ -48,7 +48,7 @@ func _process(delta):
 		direction = 1 if sprite.flip_h else -1
 		animPlayer.play( "jump" )
 		jumptimer.start()
-		Velocity = Vector2( 50 * direction, -100 )
+		Velocity = Vector2( (randi()%76+25) * direction, -100 )
 		hitbox.disabled = false
 	
 	pass
