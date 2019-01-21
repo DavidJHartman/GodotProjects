@@ -148,3 +148,14 @@ func _process(delta):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	nextAnim = true
 	pass # replace with function body
+
+func hit( damage ):
+	Health -= damage
+
+func _on_Area2D_body_entered(body):
+	if body.get("is_enemy"):
+		body.hit( 100 )
+		Velocity.y = -jumpStrength/2
+		playerState = rising
+		
+	pass # replace with function body

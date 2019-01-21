@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/spritesheet.png" type="Texture" id=2]
@@ -156,6 +156,11 @@ render_priority = 0
 shader = SubResource( 8 )
 shader_param/opacity = null
 
+[sub_resource type="RectangleShape2D" id=10]
+
+custom_solver_bias = 0.0
+extents = Vector2( 6.01286, 0.350607 )
+
 [node name="Player" type="KinematicBody2D"]
 
 input_pickable = false
@@ -269,6 +274,7 @@ script = ExtResource( 5 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." index="7"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -297,6 +303,26 @@ override_selected_font_color = false
 script = ExtResource( 6 )
 _sections_unfolded = [ "Rect" ]
 
+[node name="Area2D" type="Area2D" parent="." index="8"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 2
+collision_mask = 2
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+
+position = Vector2( -0.944687, 12.0528 )
+shape = SubResource( 10 )
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 
 
