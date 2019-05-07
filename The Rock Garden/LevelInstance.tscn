@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://asteroidAutoTile.tres" type="TileSet" id=1]
+[ext_resource path="res://TileMap.gd" type="Script" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1583.54
+
+[node name="LevelInstance" type="Node2D"]
+
+[node name="map" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+script = ExtResource( 2 )
+
+[node name="GravitationalField" type="Area2D" parent="map"]
+space_override = 3
+gravity_point = true
+priority = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="map/GravitationalField"]
+shape = SubResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+

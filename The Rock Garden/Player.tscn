@@ -8,11 +8,7 @@
 [ext_resource path="res://RichTextLabel.gd" type="Script" id=6]
 
 [sub_resource type="Animation" id=1]
-
 resource_name = "Climbing"
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -27,11 +23,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-
 resource_name = "Idle"
 length = 0.01
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -58,11 +51,8 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-
 resource_name = "Jump"
 length = 0.01
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -77,11 +67,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "Land"
 length = 0.01
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -96,11 +83,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-
 resource_name = "Walk"
 length = 0.2
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -115,10 +99,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-
 length = 0.01
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -133,12 +114,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=7]
-
-custom_solver_bias = 0.0
 extents = Vector2( 9.03658, 10.6339 )
 
 [sub_resource type="Shader" id=8]
-
 code = "shader_type canvas_item;
 
 uniform float opacity = 0.0;
@@ -147,181 +125,70 @@ void fragment() {
 	vec4 col = texture(TEXTURE, UV);
 	COLOR = col * opacity;
 }"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="ShaderMaterial" id=9]
-
-render_priority = 0
 shader = SubResource( 8 )
-shader_param/opacity = null
+shader_param/opacity = 0.0
 
 [sub_resource type="RectangleShape2D" id=10]
-
-custom_solver_bias = 0.0
 extents = Vector2( 6.01286, 0.350607 )
 
 [node name="Player" type="KinematicBody2D"]
-
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
-
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 vframes = 30
 hframes = 30
 frame = 21
-_sections_unfolded = [ "Animation", "Offset" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Climbing = SubResource( 1 )
 anims/Idle = SubResource( 2 )
 anims/Jump = SubResource( 3 )
 anims/Land = SubResource( 4 )
 anims/Walk = SubResource( 5 )
 anims/injured = SubResource( 6 )
-blend_times = [  ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.38501, 0.846395 )
 shape = SubResource( 7 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="3"]
-
-anchor_mode = 1
-rotating = false
+[node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
 
-[node name="TextureProgress" type="TextureProgress" parent="." index="4"]
-
+[node name="TextureProgress" type="TextureProgress" parent="."]
 material = SubResource( 9 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = -20.0
 margin_top = -19.0
 margin_right = 20.0
 margin_bottom = 21.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
 value = 100.0
-exp_edit = false
-rounded = false
-texture_under = null
-texture_over = null
 texture_progress = ExtResource( 3 )
 fill_mode = 4
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Material", "Textures" ]
 
-[node name="DamageTimer" type="Timer" parent="." index="5"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
+[node name="DamageTimer" type="Timer" parent="."]
 script = ExtResource( 4 )
 
-[node name="FallingGracePeriod" type="Timer" parent="." index="6"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
+[node name="FallingGracePeriod" type="Timer" parent="."]
 script = ExtResource( 5 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="." index="7"]
-
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = -94.0
 margin_top = -50.0
 margin_right = 206.0
 margin_bottom = 30.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = true
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-bbcode_enabled = false
-bbcode_text = ""
-visible_characters = -1
-percent_visible = 1.0
-meta_underlined = true
-tab_size = 4
-text = ""
-scroll_active = true
-scroll_following = false
-selection_enabled = false
-override_selected_font_color = false
 script = ExtResource( 6 )
-_sections_unfolded = [ "Rect" ]
 
-[node name="Area2D" type="Area2D" parent="." index="8"]
-
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
+[node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 2
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Collision" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -0.944687, 12.0528 )
 shape = SubResource( 10 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-
-

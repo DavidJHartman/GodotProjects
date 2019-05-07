@@ -11,6 +11,8 @@ onready var collisionbox = $hitbox/shape
 var bladeLength = 4
 var collisionlengthscale = .5
 
+var attackAngles = [-90,90,-180,180,0]
+
 var unitVector = Vector2(0,0)
 
 var screensize = Vector2()
@@ -26,7 +28,7 @@ func changeLength(deltaL):
 	if bladeLength < 4:
 		bladeLength = 4
 	collisionbox.shape.set_extents( Vector2( 3 * collisionlengthscale, bladeLength * collisionlengthscale ) )
-	
+	blade.apply_scale(Vector2(blade.transform.get_scale().x, blade.transform.get_scale().y+.1))
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -37,4 +39,8 @@ func _ready():
 func _process(delta):
 	set_angle()
 	rotation = atan2(unitVector.x, unitVector.y)
+	
+	if Input.is_action_just_pressed("ui_up"):
+		changeLength(1)
+	
 	pass

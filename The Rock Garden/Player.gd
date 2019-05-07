@@ -14,9 +14,9 @@ var Gravity = Vector2( 0, 15 )
 var moveSpeed = 10
 var moveSpeedLimit = 140
 var jumpStrength = 500
-var friction = 0
 var onGround = bool()
 var airMoveFactor = .4
+var friction = 0
 
 # timers for 
 onready var damageTimer = $DamageTimer
@@ -32,6 +32,7 @@ enum { walking, idle, rising, falling, landed, damaged }
 
 onready var sprite = $Sprite
 onready var animPlayer = $AnimationPlayer
+onready var gravitationalField = $GravitationalField
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -66,16 +67,10 @@ func manage_health_bar():
 			healthbarOpacity = 0
 
 func _process(delta):
-	
+	Gravity = gravitationalField.getGravityVector( position )
 	Velocity += deltaV + Gravity
 	
-	move_and_slide( Velocity, Vector2(0, -1) )
-	if is_on_floor():
-		onGround = true
-		Velocity.y = Gravity.y
-	else:
-		onGround = false
-	
+	move_and_collide( Velocity )
 	
 	#Velocity Calculation and clamping
 	

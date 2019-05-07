@@ -4,7 +4,12 @@ extends Area2D
 # var a = 2
 # var b = "textvar"
 
-var blink_distance = 50
+var placeInCombo = 0
+
+var timer = 0
+const COMBO_TIME_FRAME = 0.2
+
+var blink_distance = 90
 var move_speed = 70
 var blink_speed = 10 #number of frames
 var Gravity = .5
