@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://onRailsBody.tscn" type="PackedScene" id=1]
+
+[node name="sysRoot" type="Node2D"]
+
+[node name="Sun" parent="." instance=ExtResource( 1 )]
+Static = true
+mass = 333000.0
+
+[node name="DaEarf" parent="Sun" instance=ExtResource( 1 )]
+mass = 1.0
+SemiMajorAxis = 100000.0
+
+[node name="onRailsBody" parent="Sun/DaEarf" instance=ExtResource( 1 )]
+mass = 0.016
+SemiMajorAxis = 10000.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true

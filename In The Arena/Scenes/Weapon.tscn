@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/Characters/dummysword.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var unitVector = Vector2()
+var screensize = Vector2()
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	screensize = Vector2(ProjectSettings.get_setting(\"display/window/size/width\"),ProjectSettings.get_setting(\"display/window/size/height\"))
+	pass # Replace with function body.
+
+func _process(delta):
+	set_angle()
+	rotation = atan2(unitVector.x, unitVector.y)
+	
+	pass
+
+func set_angle():
+	var mousePos = get_viewport().get_mouse_position() - screensize/2
+	mousePos.normalized()
+	mousePos.y *= -1
+	unitVector = mousePos"
+
+[node name="Weapon" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="AnimHandler" type="AnimationPlayer" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -13 )
+texture = ExtResource( 1 )

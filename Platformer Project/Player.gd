@@ -10,11 +10,11 @@ var nextAnim = true
 var Velocity = Vector2()
 var deltaV = Vector2()
 var directionFacing = 1
-var Gravity = Vector2( 0, 15 )
+var Gravity = Vector2( 0, 980 )
 var moveSpeed = 10
 var moveSpeedLimit = 140
-var jumpStrength = 500
-var friction = 0
+var jumpStrength = 400
+var friction = .1
 var onGround = bool()
 var airMoveFactor = .4
 
@@ -67,12 +67,12 @@ func manage_health_bar():
 
 func _process(delta):
 	
-	Velocity += deltaV + Gravity
+	Velocity += deltaV + Gravity * delta
 	
 	move_and_slide( Velocity, Vector2(0, -1) )
 	if is_on_floor():
 		onGround = true
-		Velocity.y = Gravity.y
+		Velocity.y = 0
 	else:
 		onGround = false
 	
@@ -119,7 +119,7 @@ func _process(delta):
 			if Velocity.x < .1:
 				Velocity.x = 0
 	if (Input.is_action_pressed( "jump" ) and onGround):
-		deltaV.y = -jumpStrength
+		Velocity.y = -jumpStrength
 		playerState = rising
 	
 	if Velocity.x < 0:

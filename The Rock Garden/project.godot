@@ -22,6 +22,14 @@ config/icon="res://icon.png"
 
 SystemVariables="*res://SystemVariables.gd"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [rendering]
 
+quality/2d/use_pixel_snap=true
 environment/default_environment="res://default_env.tres"

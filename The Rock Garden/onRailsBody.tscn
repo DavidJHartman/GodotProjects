@@ -4,11 +4,15 @@
 [ext_resource path="res://debugShape.gd" type="Script" id=2]
 
 [node name="onRailsBody" type="Node2D"]
-position = Vector2( 379.656, 225.888 )
 script = ExtResource( 1 )
+Static = null
+mass = null
+SemiMajorAxis = null
+Eccentricity = null
+Inclination = null
 
 [node name="debugShape" type="Node2D" parent="."]
 script = ExtResource( 2 )
 NumberOfPoints = 80
 LineColor = Color( 1, 1, 1, 1 )
-Radius = 100.0
+Radius = 10.0

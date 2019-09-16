@@ -1,8 +1,4 @@
-extends Node
-
-var Time := float()
-var G := float(6.67249e-11)
-var StandardMass := float( 5.972e24 )
+extends Viewport
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -13,6 +9,5 @@ func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	Time += .0000001
-	pass
+#func _process(delta):
+#	pass
