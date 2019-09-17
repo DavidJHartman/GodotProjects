@@ -5,6 +5,7 @@ extends KinematicBody2D
 # var b = "text"
 
 onready var anim = $Sprite/AnimHandler
+onready var weapon = $Sprite/Weapon
 
 var playerState
 
@@ -31,14 +32,16 @@ func _process(delta):
 			Velocity.y = -maxSpeed
 	move_and_slide(Velocity)
 	
+	weapon.holderPos = position
+	
 	playerState = "Stationary"
 	
 	DeltaV = Vector2()
 	if Input.is_action_pressed("up"):
-		DeltaV.y -= movementSpeed
+		DeltaV.y += movementSpeed
 		playerState = "walk"
 	if Input.is_action_pressed("down"):
-		DeltaV.y += movementSpeed
+		DeltaV.y -= movementSpeed
 		playerState = "walk"
 	if Input.is_action_pressed("right"):
 		DeltaV.x += movementSpeed

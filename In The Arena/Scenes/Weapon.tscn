@@ -4,10 +4,9 @@
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
-
 var unitVector = Vector2()
 var screensize = Vector2()
-
+var holderPos = Vector2()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screensize = Vector2(ProjectSettings.get_setting(\"display/window/size/width\"),ProjectSettings.get_setting(\"display/window/size/height\"))
@@ -20,10 +19,12 @@ func _process(delta):
 	pass
 
 func set_angle():
-	var mousePos = get_viewport().get_mouse_position() - screensize/2
-	mousePos.normalized()
-	mousePos.y *= -1
-	unitVector = mousePos"
+	
+	var MousePos = get_viewport().get_mouse_position() / get_viewport().get_size_override() * OS.window_size
+	print(MousePos)
+	MousePos.normalized()
+	MousePos.y *= -1
+	unitVector = MousePos"
 
 [node name="Weapon" type="Node2D"]
 script = SubResource( 1 )
