@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Sprites/Characters/dummysword.png" type="Texture" id=1]
 
@@ -7,10 +7,29 @@ script/source = "extends Node2D
 var unitVector = Vector2()
 var screensize = Vector2()
 var holderPos = Vector2()
+
+var weaponName = String()
+export var placeInCombo = 0
+export var readyToQueue = false
+var comboLengths = {\"Sword\": 2}
+
+onready var anim = $AnimHandler
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screensize = Vector2(ProjectSettings.get_setting(\"display/window/size/width\"),ProjectSettings.get_setting(\"display/window/size/height\"))
+	
+	weaponName = \"Sword\"
+	
 	pass # Replace with function body.
+
+func attack():
+	if !readyToQueue:
+		pass
+	placeInCombo+=1
+	
+	anim.play(weaponName + \"Attack\" + String(placeInCombo))
+	if placeInCombo == comboLengths[weaponName]:
+		placeInCombo = 0
 
 func _process(delta):
 	set_angle()
@@ -20,17 +39,101 @@ func _process(delta):
 
 func set_angle():
 	
-	var MousePos = get_viewport().get_mouse_position() / get_viewport().get_size_override() * OS.window_size
-	print(MousePos)
+	var MousePos = get_global_mouse_position() - holderPos
 	MousePos.normalized()
 	MousePos.y *= -1
 	unitVector = MousePos"
 
+[sub_resource type="Animation" id=2]
+resource_name = "SwordAttack1"
+length = 0.35
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -50.0, 90.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:readyToQueue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.09 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:placeInCombo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.35 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "SwordAttack2"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 90.0, -90.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:readyToQueue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:placeInCombo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.25 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
 [node name="Weapon" type="Node2D"]
 script = SubResource( 1 )
+readyToQueue = true
 
 [node name="AnimHandler" type="AnimationPlayer" parent="."]
+anims/SwordAttack1 = SubResource( 2 )
+anims/SwordAttack2 = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -13 )
 texture = ExtResource( 1 )
+offset = Vector2( 0, -13 )

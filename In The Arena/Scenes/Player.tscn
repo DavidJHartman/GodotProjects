@@ -1,11 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Characters/Dummy.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/stateProcess.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/idle.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/move.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/load.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/ai_idle.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/ai_search.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/ai_walk.gd" type="Script" id=10]
 
 [sub_resource type="Animation" id=1]
-resource_name = "Stationary"
+resource_name = "idle"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -68,14 +75,35 @@ height = 4.33738
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
-[node name="AnimHandler" type="AnimationPlayer" parent="Sprite"]
-anims/Stationary = SubResource( 1 )
+[node name="AnimHandler" type="AnimationPlayer" parent="sprite"]
+anims/idle = SubResource( 1 )
 anims/walk = SubResource( 2 )
 
-[node name="Weapon" parent="Sprite" instance=ExtResource( 3 )]
+[node name="Weapon" parent="sprite" instance=ExtResource( 3 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
+
+[node name="stateProcess" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="idle" type="Node" parent="stateProcess"]
+script = ExtResource( 5 )
+
+[node name="move" type="Node" parent="stateProcess"]
+script = ExtResource( 6 )
+
+[node name="load" type="Node" parent="stateProcess"]
+script = ExtResource( 7 )
+
+[node name="ai_idle" type="Node" parent="stateProcess"]
+script = ExtResource( 8 )
+
+[node name="ai_search" type="Node" parent="stateProcess"]
+script = ExtResource( 9 )
+
+[node name="ai_walk" type="Node" parent="stateProcess"]
+script = ExtResource( 10 )
