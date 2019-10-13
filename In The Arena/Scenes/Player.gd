@@ -9,6 +9,7 @@ var DeltaV = Vector2()
 var maxSpeed = 70
 var moveSpeed = 500
 
+
 var moveTowardsTarget = false
 var initialState
 
@@ -52,14 +53,7 @@ func _process(delta):
 			aimPos.y *= -1
 			weapon.set_angle(atan2(aimPos.x, aimPos.y))
 		
-		# if you are approaching the target
-		if moveTowardsTarget:
-			var p = target.position - position
-			var mag  = sqrt( p.x * p.x + p.y * p.y )
-			var normalizedDir = p/mag
-			DeltaV = normalizedDir * body.moveSpeed
-		else:
-			DeltaV = Vector2()
+		
 	
 	# Process movement
 	Velocity += DeltaV * delta
@@ -105,12 +99,18 @@ func rangetotarget():
 	return mag
 
 func walk_to():
-	moveTowardsTarget = true
+	var p = target.position - position
+	var mag  = sqrt( p.x * p.x + p.y * p.y )
+	var normalizedDir = p/mag
 	
-	if rangetotarget() < 20:
-		moveTowardsTarget = false
-		return true
+	if rangetotarget() > 50:
+		DeltaV = normalizedDir * body.moveSpeed
 	
+	if rangetotarget() < 50:
+		normalizedDir.x = normalizedDir.x * cos(-PI/2) - normalizedDir.y * sin(-PI/2)
+		normalizedDir.y = normalizedDir.x * sin(-PI/2) + normalizedDir.y * cos(-PI/2)
+		
+		DeltaV = normalizedDir * (body.moveSpeed/2)
 	return false
 
 func find_target():
