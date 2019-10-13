@@ -33,22 +33,54 @@ func _ready():
 		initialState = 'idle'
 
 func _process(delta):
-	if AI:
+	
+	
+	if !AI:
+		var unitVector
+		var MousePos = get_global_mouse_position() - position
+		MousePos.normalized()
+		MousePos.y *= -1
+		unitVector = MousePos
+		weapon.set_angle(atan2(unitVector.x, unitVector.y))
+	
+	else:
+		
+		# Aim at the target
+		if target:
+			var aimPos = target.position - position
+			aimPos.normalized()
+			aimPos.y *= -1
+			weapon.set_angle(atan2(aimPos.x, aimPos.y))
+		
+		# if you are approaching the target
 		if moveTowardsTarget:
-			print(target.position)
 			var p = target.position - position
 			var mag  = sqrt( p.x * p.x + p.y * p.y )
 			var normalizedDir = p/mag
 			DeltaV = normalizedDir * body.moveSpeed
 		else:
 			DeltaV = Vector2()
+	
+	# Process movement
 	Velocity += DeltaV * delta
-	Velocity *= .9
+	if abs(Velocity.x) > moveSpeed:
+		Velocity.x == moveSpeed * sign(Velocity.x)
+	if abs(Velocity.y) > moveSpeed:
+		Velocity.y == moveSpeed * sign(Velocity.y)
+	
+	# Calculate friction coefficients
+	if DeltaV == Vector2():
+		Velocity *= .5
+	else:
+		Velocity *= .9
+	#Stop moving when slow enough
 	if abs(Velocity.x) < 1:
 		Velocity.x = 0
 	if abs(Velocity.y) < 1:
 		Velocity.y = 0
+	
 	move_and_slide(Velocity)
+	weapon.holderPos = position
 
 func inputProcessing():
 	DeltaV = Vector2(0,0)
@@ -60,6 +92,9 @@ func inputProcessing():
 		DeltaV.x += moveSpeed
 	if Input.is_action_pressed('left'):
 		DeltaV.x -= moveSpeed
+	
+	if Input.is_action_just_pressed("leftClick"):
+		weapon.attack()
 	pass
 
 func rangetotarget():
@@ -70,13 +105,12 @@ func rangetotarget():
 	return mag
 
 func walk_to():
+	moveTowardsTarget = true
 	
 	if rangetotarget() < 20:
 		moveTowardsTarget = false
+		return true
 	
-	if anim.current_animation != "walk":
-		anim.play("walk")
-	moveTowardsTarget = true
 	return false
 
 func find_target():
@@ -93,6 +127,16 @@ func find_target():
 	body.target = closestEnemy
 	return true
 
+func melee_attack():
+	weapon.attack()
+	return false
+
+func idle():
+	moveTowardsTarget = false
+	if anim.current_animation != "idle":
+		anim.play("idle")
+	return false
+
 func GOAP():
 	var start_time = OS.get_unix_time()
 	#var count = 0
@@ -104,6 +148,7 @@ func GOAP():
 		
 		var plan : Array = action_planner.plan(calculate_state(), calculate_goal())
 		for action in plan:
+			
 			var error = false
 			
 			if has_method( action ):
@@ -125,8 +170,10 @@ func GOAP():
 
 func calculate_goal():
 	var goal = ""
-	if target and rangetotarget() > 20:
-		goal = "in_range "
+	goal = "damage_target "
+	
+	if goal == "":
+		goal = "idle "
 	
 	return goal
 

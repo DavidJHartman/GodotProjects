@@ -112,4 +112,16 @@ script = ExtResource( 9 )
 action = "GOAPAction"
 effect = "has_target"
 
+[node name="idle" type="Node" parent="GOAPActionPlanner"]
+script = ExtResource( 9 )
+action = "GOAPAction"
+effect = "idle"
+
+[node name="melee_attack" type="Node" parent="GOAPActionPlanner"]
+script = ExtResource( 9 )
+action = "GOAPAction"
+preconditions = "has_target in_range"
+effect = "damage_target"
+
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.01
