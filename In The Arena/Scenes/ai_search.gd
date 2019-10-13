@@ -1,13 +1,16 @@
-extends Node
+extends "res://GOAP.gd"
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
+onready var body = get_parent().bodyToActOn
 
+func _init() :
+	addEffect('foundTarget', false)
 
-# Called when the node enters the scene tree for the first time.
-func update(body):
+# Called when  node enters the scene tree for the first time.
+func process():
 	var enemies = get_tree().get_nodes_in_group("actors")
 	var closestEnemy
 	var closestDistance = 99999999

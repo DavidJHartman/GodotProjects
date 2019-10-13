@@ -1,12 +1,15 @@
-extends Node
+extends "res://GOAP.gd"
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-# Called when the node enters the scene tree for the first time.
-func update(body):
-	
+onready var body = get_parent().bodyToActOn
+
+func _init():
+	addEffect('range',false)
+
+func process():
 	var p = body.target.position - body.position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
 	

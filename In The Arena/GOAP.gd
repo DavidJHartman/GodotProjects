@@ -1,41 +1,40 @@
 extends Node
 
-var listOfActions := Array()
+var requirements := Dictionary()
+var effects := Dictionary()
 
-class Action:
-	
-	var Name := String()
-	var Cost := int()
-	var Requires := Array()
-	
-	var Children := Array()
-	var Parent
-	
-	#if Sets.length() == 0, Action is base of tree
-	var Sets := Array()
-	
-	# stores an instance of a node with script to run
-	var ToTake
-	
-	func update():
-		ToTake.update()
-	
-	func _init( Name : String, Cost : int, ToTake ):
-		self.Name = Name
-		self.Cost = Cost
-		self.ToTake = ToTake
-	
-	func populateRequirementsList( requires : Array, listOfActions : Array ):
-		for action in listOfActions:
-			for requirement in requires:
-				
-				var inSet = false
-				
-				for sets in action.sets:
-					if requirement == sets:
-						inSet = true
-						break
-				if inSet == false:
-					break
-				
-				Children.push_back(action)
+# In the event a function needs to be performed on an object
+var target
+var in_range := bool(false)
+
+func checkWorldState():
+	pass
+
+func deleteRequirements():
+	requirements = Dictionary()
+
+func deleteEffects():
+	effects = Dictionary()
+
+func complete():
+	pass
+
+func process():
+	pass
+
+func addRequirement( name : String, condition ):
+	requirements[name] = condition
+	pass
+func addEffect( name, condition ):
+	effects[name] = condition
+	pass
+
+func deleteRequirement( name ):
+	while requirements.has( name ):
+		requirements.erase( name )
+	pass
+
+func deleteEffect( name ):
+	while effects.has( name ):
+		effects.erase( name )
+	pass

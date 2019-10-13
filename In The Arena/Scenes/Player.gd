@@ -56,3 +56,18 @@ func inputProcessing():
 	if Input.is_action_pressed('left'):
 		DeltaV.x -= moveSpeed
 	pass
+
+func walk_to():
+	var p = target.position - position
+	var mag  = sqrt( p.x * p.x + p.y * p.y )
+	
+	if mag <= 20:
+		return 'ai_idle'
+	
+	if anim.current_animation != "walk":
+		anim.play("walk")
+	
+	var normalizedDir = p/mag
+	DeltaV = normalizedDir * body.moveSpeed
+	
+	return
