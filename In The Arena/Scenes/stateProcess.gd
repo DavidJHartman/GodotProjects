@@ -17,7 +17,7 @@ func _ready():
 func _process(delta):
 	if current_state == null:
 		current_state = body.initialState
-		pass
+		return
 	state_name = state_dictionary[current_state].update(body)
 	if state_name:
 		current_state = state_name

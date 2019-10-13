@@ -87,7 +87,6 @@ anims/walk = SubResource( 2 )
 shape = SubResource( 3 )
 
 [node name="stateProcess" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="idle" type="Node" parent="stateProcess"]
@@ -105,3 +104,12 @@ script = ExtResource( 8 )
 [node name="walk_to" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
+preconditions = "has_target"
+effect = "in_range"
+
+[node name="find_target" type="Node" parent="GOAPActionPlanner"]
+script = ExtResource( 9 )
+action = "GOAPAction"
+effect = "has_target"
+
+[node name="Timer" type="Timer" parent="."]

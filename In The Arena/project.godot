@@ -40,10 +40,6 @@ window/size/height=200
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
-[editor_plugins]
-
-enabled=PoolStringArray( "goap" )
-
 [input]
 
 ui_accept={
