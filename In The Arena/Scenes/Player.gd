@@ -105,12 +105,13 @@ func walk_to():
 	
 	if rangetotarget() > 50:
 		DeltaV = normalizedDir * body.moveSpeed
-	
-	if rangetotarget() < 50:
-		normalizedDir.x = normalizedDir.x * cos(-PI/2) - normalizedDir.y * sin(-PI/2)
-		normalizedDir.y = normalizedDir.x * sin(-PI/2) + normalizedDir.y * cos(-PI/2)
+		pass
+	else:
+		var temp = normalizedDir
+		normalizedDir.x = temp.x * cos(-PI/2) - temp.y * sin(-PI/2)
+		normalizedDir.y = temp.x * sin(-PI/2) + temp.y * cos(-PI/2)
 		
-		DeltaV = normalizedDir * (body.moveSpeed/2)
+		DeltaV = normalizedDir * (body.moveSpeed)
 	return false
 
 func find_target():

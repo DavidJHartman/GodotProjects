@@ -72,6 +72,7 @@ radius = 5.92899
 height = 4.33738
 
 [node name="Player" type="KinematicBody2D"]
+scale = Vector2( 0.997907, 1 )
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
