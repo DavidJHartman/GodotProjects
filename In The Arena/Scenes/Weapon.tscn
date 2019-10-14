@@ -11,6 +11,9 @@ var holderPos = Vector2()
 var weaponName = String()
 export var placeInCombo = 0
 export var readyToQueue = false
+
+var weaponFacingChance = {\"Sword\": 65}
+var weaponDamage = {\"Sword\": 2}
 var comboLengths = {\"Sword\": 2}
 
 onready var anim = $AnimHandler
@@ -21,6 +24,9 @@ func _ready():
 	weaponName = \"Sword\"
 	
 	pass # Replace with function body.
+
+func hitChance():
+	return weaponFacingChance[weaponName]
 
 func attack():
 	if !readyToQueue:
@@ -40,7 +46,7 @@ func set_angle(theta):
 
 [sub_resource type="Animation" id=2]
 resource_name = "SwordAttack1"
-length = 0.35
+length = 0.4
 step = 0.03
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -49,10 +55,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.09, 0.35 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.09, 0.27, 0.39 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -50.0, 90.0, 0.0 ]
+"values": [ 0.0, 101.8, -61.2, 0.0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:readyToQueue")
@@ -61,7 +67,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.09 ),
+"times": PoolRealArray( 0, 0.39 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -73,15 +79,27 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.35 ),
+"times": PoolRealArray( 0.27 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.09, 0.27, 0.39 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -13 ), Vector2( 5, -20 ), Vector2( -5, -20 ), Vector2( 0, -13 ) ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "SwordAttack2"
-length = 0.25
+length = 0.4
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -90,10 +108,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 90.0, -90.0, 0.0 ]
+"values": [ -61.2, 61.1, 132.4, 0.0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:readyToQueue")
@@ -102,7 +120,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05 ),
+"times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -114,10 +132,22 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.25 ),
+"times": PoolRealArray( 0.4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -5, -12 ), Vector2( 0, -20 ), Vector2( 0, -13 ) ]
 }
 
 [node name="Weapon" type="Node2D"]

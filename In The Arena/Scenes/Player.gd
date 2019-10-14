@@ -6,6 +6,7 @@ onready var state_handler = $stateProcess
 
 var Velocity = Vector2(0,0)
 var DeltaV = Vector2()
+var facing = Vector2()
 var maxSpeed = 70
 var moveSpeed = 250
 
@@ -38,20 +39,20 @@ func _process(delta):
 	
 	if !AI:
 		var unitVector
-		var MousePos = get_global_mouse_position() - position
-		MousePos.normalized()
-		MousePos.y *= -1
-		unitVector = MousePos
-		weapon.set_angle(atan2(unitVector.x, unitVector.y))
+		facing = get_global_mouse_position() - position
+		var mag = sqrt( pow(facing.x,2) + pow(facing.y,2))
+		facing /= mag
+		weapon.set_angle(atan2(facing.y, facing.x) + PI/2)
 	
 	else:
 		
 		# Aim at the target
 		if target:
-			var aimPos = target.position - position
-			aimPos.normalized()
-			aimPos.y *= -1
-			weapon.set_angle(atan2(aimPos.x, aimPos.y))
+			facing = target.position - position
+			var mag = sqrt( pow(facing.x,2) + pow(facing.y,2))
+			facing /= mag
+			facing.y *= -1
+			weapon.set_angle(atan2(facing.x, facing.y))
 		
 		
 	# Process movement
@@ -103,18 +104,12 @@ func rangetotarget():
 func walk_to():
 	var p = target.position - position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
-	var normalizedDir = p/mag
+	facing = p/mag
 	
-	if rangetotarget() > 50:
-		DeltaV = normalizedDir * body.moveSpeed * 2
-		pass
+	if rangetotarget() > 35:
+		DeltaV = facing * body.moveSpeed * 2
 	else:
-		var temp = normalizedDir
-		var angle = (PI/2 + randf()*PI/3) * swapDirection
-		normalizedDir.x = temp.x * cos(angle) - temp.y * sin(angle)
-		normalizedDir.y = temp.x * sin(angle) + temp.y * cos(angle)
-		
-		DeltaV = normalizedDir * (body.moveSpeed)
+		return true
 	return false
 
 func find_target():
@@ -132,7 +127,25 @@ func find_target():
 	return true
 
 func melee_attack():
-	weapon.attack()
+	
+	var p = target.position - position
+	var mag  = sqrt( p.x * p.x + p.y * p.y )
+	facing = p/mag
+	
+	var dot =  facing.x * target.facing.x + facing.y * target.facing.y
+	
+	var temp = facing
+	var angle = (PI/2 + randf()*PI/3)
+	facing.x = temp.x * cos(angle) - temp.y * sin(angle)
+	facing.y = temp.x * sin(angle) + temp.y * cos(angle)
+	
+	DeltaV = facing * (body.moveSpeed)
+	
+	var H = ((dot * weapon.hitChance())) + (weapon.hitChance())
+	
+	if randi()%100 < H:
+		weapon.attack()
+	
 	return false
 
 func idle():

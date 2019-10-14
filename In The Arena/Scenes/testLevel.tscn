@@ -28,15 +28,3 @@ position = Vector2( -48, 0 )
 ] instance=ExtResource( 2 )]
 position = Vector2( 46, 0 )
 AI = true
-
-[node name="AI2" parent="." groups=[
-"actors",
-] instance=ExtResource( 2 )]
-position = Vector2( -74.7425, 47.1028 )
-AI = true
-
-[node name="AI3" parent="." groups=[
-"actors",
-] instance=ExtResource( 2 )]
-position = Vector2( 2.87769, -67.6689 )
-AI = true
