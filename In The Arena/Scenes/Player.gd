@@ -10,6 +10,8 @@ var facing = Vector2()
 var maxSpeed = 70
 var moveSpeed = 250
 
+var stunned = false
+
 
 var moveTowardsTarget = false
 var initialState
@@ -29,6 +31,7 @@ onready var state_dictionary = {
 }
 
 func _ready():
+	weapon.holder = self
 	if AI:
 		GOAP()
 	else:
@@ -74,7 +77,7 @@ func _process(delta):
 		Velocity.y = 0
 	
 	move_and_slide(Velocity)
-	weapon.holderPos = position
+	weapon.holder.position = position
 
 func inputProcessing():
 	DeltaV = Vector2(0,0)
@@ -92,6 +95,8 @@ func inputProcessing():
 		DeltaV *= 2
 	if Input.is_action_just_pressed("leftClick"):
 		weapon.attack()
+	if Input.is_action_pressed("rightClick"):
+		weapon.parry()
 	pass
 
 func rangetotarget():
@@ -168,6 +173,8 @@ func GOAP():
 		
 		var plan : Array = action_planner.plan(calculate_state(), calculate_goal())
 		for action in plan:
+			if stunned:
+				plan = Array()
 			
 			var error = false
 			
