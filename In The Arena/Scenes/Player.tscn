@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Characters/Dummy.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/load.gd" type="Script" id=7]
 [ext_resource path="res://addons/goap/goap_action_planner.gd" type="Script" id=8]
 [ext_resource path="res://addons/goap/goap_action.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/ChangeDirection.gd" type="Script" id=10]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -72,7 +73,6 @@ radius = 5.92899
 height = 4.33738
 
 [node name="Player" type="KinematicBody2D"]
-scale = Vector2( 0.997907, 1 )
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
@@ -126,3 +126,9 @@ effect = "damage_target"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
+
+[node name="ChangeDirection" type="Timer" parent="."]
+autostart = true
+script = ExtResource( 10 )
+[connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
+[connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]

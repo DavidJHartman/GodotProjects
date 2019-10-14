@@ -7,7 +7,7 @@ onready var state_handler = $stateProcess
 var Velocity = Vector2(0,0)
 var DeltaV = Vector2()
 var maxSpeed = 70
-var moveSpeed = 500
+var moveSpeed = 250
 
 
 var moveTowardsTarget = false
@@ -15,6 +15,7 @@ var initialState
 
 var body = self
 
+var swapDirection = 1
 var equipment = Array()
 
 # ai specific variables
@@ -35,7 +36,6 @@ func _ready():
 
 func _process(delta):
 	
-	
 	if !AI:
 		var unitVector
 		var MousePos = get_global_mouse_position() - position
@@ -54,7 +54,6 @@ func _process(delta):
 			weapon.set_angle(atan2(aimPos.x, aimPos.y))
 		
 		
-	
 	# Process movement
 	Velocity += DeltaV * delta
 	if abs(Velocity.x) > moveSpeed:
@@ -79,14 +78,17 @@ func _process(delta):
 func inputProcessing():
 	DeltaV = Vector2(0,0)
 	if Input.is_action_pressed('up'):
-		DeltaV.y -= moveSpeed
+		DeltaV.y -= 1
 	if Input.is_action_pressed('down'):
-		DeltaV.y += moveSpeed
+		DeltaV.y += 1
 	if Input.is_action_pressed('right'):
-		DeltaV.x += moveSpeed
+		DeltaV.x += 1
 	if Input.is_action_pressed('left'):
-		DeltaV.x -= moveSpeed
-	
+		DeltaV.x -= 1
+	DeltaV.normalized()
+	DeltaV *= moveSpeed
+	if Input.is_action_pressed('sprint'):
+		DeltaV *= 2
 	if Input.is_action_just_pressed("leftClick"):
 		weapon.attack()
 	pass
@@ -104,12 +106,13 @@ func walk_to():
 	var normalizedDir = p/mag
 	
 	if rangetotarget() > 50:
-		DeltaV = normalizedDir * body.moveSpeed
+		DeltaV = normalizedDir * body.moveSpeed * 2
 		pass
 	else:
 		var temp = normalizedDir
-		normalizedDir.x = temp.x * cos(-PI/2) - temp.y * sin(-PI/2)
-		normalizedDir.y = temp.x * sin(-PI/2) + temp.y * cos(-PI/2)
+		var angle = (PI/2 + randf()*PI/3) * swapDirection
+		normalizedDir.x = temp.x * cos(angle) - temp.y * sin(angle)
+		normalizedDir.y = temp.x * sin(angle) + temp.y * cos(angle)
 		
 		DeltaV = normalizedDir * (body.moveSpeed)
 	return false
@@ -187,3 +190,7 @@ func calculate_state():
 		state += "!has_target "
 	
 	return state
+
+func _on_ChangeDirection_timeout():
+	swapDirection *= -1
+	pass # Replace with function body.
