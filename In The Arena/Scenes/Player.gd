@@ -134,17 +134,20 @@ func melee_attack():
 	
 	var dot =  facing.x * target.facing.x + facing.y * target.facing.y
 	
-	var temp = facing
-	var angle = (PI/2 + randf()*PI/3)
-	facing.x = temp.x * cos(angle) - temp.y * sin(angle)
-	facing.y = temp.x * sin(angle) + temp.y * cos(angle)
-	
-	DeltaV = facing * (body.moveSpeed)
-	
 	var H = ((dot * weapon.hitChance())) + (weapon.hitChance())
 	
-	if randi()%100 < H:
+	if randi()%100 < H and weapon.placeInCombo != weapon.comboLengths[weapon.weaponName]:
 		weapon.attack()
+		DeltaV = facing * (body.moveSpeed * 2)
+	elif weapon.readyToQueue:
+		var temp = facing
+		var angle = (PI/2 + randf()*PI/3)
+		facing.x = temp.x * cos(angle) - temp.y * sin(angle)
+		facing.y = temp.x * sin(angle) + temp.y * cos(angle)
+		DeltaV = facing * (body.moveSpeed)
+	
+	
+	
 	
 	return false
 
