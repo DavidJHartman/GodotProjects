@@ -95,7 +95,7 @@ func inputProcessing():
 		DeltaV *= 2
 	if Input.is_action_just_pressed("leftClick"):
 		weapon.attack()
-	if Input.is_action_pressed("rightClick"):
+	if Input.is_action_pressed("rightClick") or true:
 		weapon.parry()
 	pass
 
@@ -107,6 +107,8 @@ func rangetotarget():
 	return mag
 
 func walk_to():
+	if !target:
+		return false
 	var p = target.position - position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
 	facing = p/mag
@@ -132,7 +134,8 @@ func find_target():
 	return true
 
 func melee_attack():
-	
+	if !target:
+		return false
 	var p = target.position - position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
 	facing = p/mag
@@ -175,6 +178,12 @@ func GOAP():
 		for action in plan:
 			if stunned:
 				plan = Array()
+				target = null
+				DeltaV = Vector2()
+				$StunTimer.start()
+				yield($StunTimer, "timeout")
+				stunned = false
+				weapon.reset()
 			
 			var error = false
 			

@@ -29,13 +29,16 @@ func _ready():
 func hitChance():
 	return weaponFacingChance[weaponName]
 
+func reset():
+	placeInCombo = 0
+	anim.stop()
+
 func parry():
 	#anim.play(weaponName + \"Parry\")
 	for weapon in get_tree().get_nodes_in_group(\"weapons\"):
 		if weapon == self:
 			continue
-		if hitbox.overlaps_body( weapon.hitbox ):
-			print(\"Hi\")
+		if hitbox.overlaps_area( weapon.hitbox ) and weapon.placeInCombo != 0:
 			if weapon.holder:
 				weapon.holder.stunned = true
 
