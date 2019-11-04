@@ -4,6 +4,7 @@
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
+
 extents = Vector2( 160, 160 )
 
 [node name="Node2D" type="Node2D"]
@@ -28,3 +29,4 @@ position = Vector2( -48, 0 )
 ] instance=ExtResource( 2 )]
 position = Vector2( 46, 0 )
 AI = true
+

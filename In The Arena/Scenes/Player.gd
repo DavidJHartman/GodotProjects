@@ -25,6 +25,10 @@ var equipment = Array()
 export var AI = false
 var target
 
+var parryOn : int
+var parryOff : int
+var parryCounter : int
+
 onready var state_dictionary = {
 	'idle' : $stateProcess/idle,
 	'move' : $stateProcess/move
@@ -34,11 +38,20 @@ func _ready():
 	weapon.holder = self
 	if AI:
 		GOAP()
+		parryOn = (randi()%30)+1
+		parryOff = 60
+		parryCounter = 0
 	else:
 		state_handler.state_dictionary = state_dictionary
 		initialState = 'idle'
 
 func _process(delta):
+	
+	if stunned:
+		weapon.reset()
+		stunned = false
+		$StunTimer.start()
+		yield($StunTimer, "timeout")
 	
 	if !AI:
 		var unitVector
@@ -56,8 +69,7 @@ func _process(delta):
 			facing /= mag
 			facing.y *= -1
 			weapon.set_angle(atan2(facing.x, facing.y))
-		
-		
+	
 	# Process movement
 	Velocity += DeltaV * delta
 	if abs(Velocity.x) > moveSpeed:
@@ -95,9 +107,8 @@ func inputProcessing():
 		DeltaV *= 2
 	if Input.is_action_just_pressed("leftClick"):
 		weapon.attack()
-	if Input.is_action_pressed("rightClick") or true:
+	if Input.is_action_just_pressed("rightClick"):
 		weapon.parry()
-	pass
 
 func rangetotarget():
 	
@@ -144,6 +155,15 @@ func melee_attack():
 	
 	var H = ((dot * weapon.hitChance())) + (weapon.hitChance())
 	
+	
+	parryCounter += 1
+	if parryCounter < parryOn:
+		if target.weapon.placeInCombo != 0:
+			weapon.parry()
+			return false
+	if parryCounter == parryOff:
+		parryCounter = 0
+	
 	if randi()%100 < H and weapon.placeInCombo != weapon.comboLengths[weapon.weaponName]:
 		weapon.attack()
 		DeltaV = facing * (body.moveSpeed * 2)
@@ -153,9 +173,6 @@ func melee_attack():
 		facing.x = temp.x * cos(angle) - temp.y * sin(angle)
 		facing.y = temp.x * sin(angle) + temp.y * cos(angle)
 		DeltaV = facing * (body.moveSpeed)
-	
-	
-	
 	
 	return false
 
