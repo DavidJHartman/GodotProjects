@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Characters/Dummy.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://addons/goap/goap_action_planner.gd" type="Script" id=8]
 [ext_resource path="res://addons/goap/goap_action.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/ChangeDirection.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/StunTimer.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -101,7 +102,6 @@ script = ExtResource( 6 )
 script = ExtResource( 7 )
 
 [node name="GOAPActionPlanner" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 8 )
 
 [node name="walk_to" type="Node" parent="GOAPActionPlanner"]
@@ -109,22 +109,35 @@ script = ExtResource( 9 )
 action = "GOAPAction"
 preconditions = "has_target"
 effect = "in_range"
+cost = 1.0
 
 [node name="find_target" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
+preconditions = ""
 effect = "has_target"
+cost = 1.0
 
 [node name="idle" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
+preconditions = ""
 effect = "idle"
+cost = 1.0
 
 [node name="melee_attack" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
 preconditions = "has_target in_range"
 effect = "damage_target"
+cost = 1.0
+
+[node name="bow_attack" type="Node" parent="GOAPActionPlanner"]
+script = ExtResource( 9 )
+action = "bow_attack"
+preconditions = ""
+effect = ""
+cost = 1.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
@@ -134,5 +147,7 @@ autostart = true
 script = ExtResource( 10 )
 
 [node name="StunTimer" type="Timer" parent="."]
-[connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
+script = ExtResource( 11 )
 [connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
+[connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]

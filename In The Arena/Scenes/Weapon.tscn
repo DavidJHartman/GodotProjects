@@ -1,65 +1,9 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://Sprites/Characters/dummysword.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Characters/dummysword.png" type="Texture" id=2]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends Node2D
-var unitVector = Vector2()
-var screensize = Vector2()
-
-var weaponName = String()
-export var placeInCombo = 0
-export var readyToQueue = false
-
-var weaponFacingChance = {\"Sword\": 65}
-var weaponDamage = {\"Sword\": 2}
-var comboLengths = {\"Sword\": 2}
-
-onready var anim = $AnimHandler
-onready var hitbox = $Sprite/hitbox
-onready var holder = null
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	screensize = Vector2(ProjectSettings.get_setting(\"display/window/size/width\"),ProjectSettings.get_setting(\"display/window/size/height\"))
-	add_to_group('weapons')
-	weaponName = \"Sword\"
-	
-	pass # Replace with function body.
-
-func hitChance():
-	return weaponFacingChance[weaponName]
-
-func reset():
-	placeInCombo = 0
-	anim.stop()
-
-func parry():
-	#anim.play(weaponName + \"Parry\")
-	for weapon in get_tree().get_nodes_in_group(\"weapons\"):
-		if weapon == self:
-			continue
-		if hitbox.overlaps_area( weapon.hitbox ) and weapon.placeInCombo != 0:
-			if weapon.holder:
-				print(\"HI\")
-				weapon.holder.stunned = true
-
-func attack():
-	if !readyToQueue:
-		return
-	placeInCombo+=1
-	
-	anim.play(weaponName + \"Attack\" + String(placeInCombo))
-	if placeInCombo == comboLengths[weaponName]:
-		placeInCombo = 0
-
-func _process(delta):
-	
-	pass
-
-func set_angle(theta):
-	rotation = theta"
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "Idle"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:offset")
@@ -98,10 +42,46 @@ tracks/2/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Parry"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -13 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -90.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 13, -13 ) ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 0.4
 step = 0.03
 tracks/0/type = "value"
@@ -126,7 +106,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.39 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true, true ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:placeInCombo")
@@ -153,7 +133,7 @@ tracks/3/keys = {
 "values": [ Vector2( 0, -13 ), Vector2( 5, -20 ), Vector2( -5, -20 ), Vector2( 0, -13 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -205,12 +185,17 @@ tracks/3/keys = {
 "values": [ Vector2( -5, -12 ), Vector2( 0, -20 ), Vector2( 0, -13 ) ]
 }
 
+[sub_resource type="AnimationNodeBlendSpace2D" id=5]
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=22]
+
 [sub_resource type="AnimationNodeBlendSpace2D" id=6]
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=7]
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Idle"
 
 [sub_resource type="AnimationNodeAnimation" id=8]
-animation = "Idle"
+animation = "Parry"
 
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "SwordAttack1"
@@ -235,49 +220,62 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id=17]
-states/BlendSpace2D/node = SubResource( 7 )
-states/BlendSpace2D/position = Vector2( 305.901, 138 )
-"states/BlendSpace2D 2/node" = SubResource( 6 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id=19]
+states/BlendSpace2D/node = SubResource( 6 )
+states/BlendSpace2D/position = Vector2( 102.5, 145 )
+"states/BlendSpace2D 2/node" = SubResource( 5 )
 "states/BlendSpace2D 2/position" = Vector2( -92.0989, 195.203 )
-states/Idle/node = SubResource( 8 )
-states/Idle/position = Vector2( -173.599, 98.6309 )
+"states/BlendSpace2D 3/node" = SubResource( 22 )
+"states/BlendSpace2D 3/position" = Vector2( -8.599, 6 )
+states/Idle/node = SubResource( 7 )
+states/Idle/position = Vector2( -173.599, 98.3125 )
+states/Parry/node = SubResource( 8 )
+states/Parry/position = Vector2( -173.599, 6 )
 states/SwordAttack1/node = SubResource( 9 )
 states/SwordAttack1/position = Vector2( 102.5, 98.3125 )
 states/SwordAttack2/node = SubResource( 10 )
 states/SwordAttack2/position = Vector2( 101.5, 195.406 )
-transitions = [ "Idle", "SwordAttack1", SubResource( 11 ), "SwordAttack1", "Idle", SubResource( 12 ), "SwordAttack1", "BlendSpace2D", SubResource( 13 ), "BlendSpace2D", "SwordAttack2", SubResource( 14 ), "SwordAttack2", "BlendSpace2D 2", SubResource( 15 ), "BlendSpace2D 2", "Idle", SubResource( 16 ) ]
-graph_offset = Vector2( -348.599, 0 )
+transitions = [ "Idle", "SwordAttack1", SubResource( 11 ), "SwordAttack1", "Idle", SubResource( 12 ), "SwordAttack1", "BlendSpace2D", SubResource( 13 ), "BlendSpace2D", "SwordAttack2", SubResource( 14 ), "SwordAttack2", "BlendSpace2D 2", SubResource( 15 ), "BlendSpace2D 2", "Idle", SubResource( 16 ), "Idle", "Parry", SubResource( 17 ), "Parry", "BlendSpace2D 3", SubResource( 23 ), "BlendSpace2D 3", "Idle", SubResource( 24 ) ]
+graph_offset = Vector2( -433.599, -23.06 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=20]
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 2.15298, 8.84492 )
 
 [node name="Weapon" type="Node2D"]
-script = SubResource( 1 )
+script = ExtResource( 1 )
 readyToQueue = true
 
 [node name="AnimHandler" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 2 )
-anims/Parry = SubResource( 3 )
-anims/SwordAttack1 = SubResource( 4 )
-anims/SwordAttack2 = SubResource( 5 )
+anims/Idle = SubResource( 1 )
+anims/Parry = SubResource( 2 )
+anims/SwordAttack1 = SubResource( 3 )
+anims/SwordAttack2 = SubResource( 4 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 17 )
+tree_root = SubResource( 19 )
 anim_player = NodePath("../AnimHandler")
 active = true
-parameters/playback = SubResource( 18 )
+parameters/playback = SubResource( 20 )
 parameters/BlendSpace2D/blend_position = Vector2( 0, 0 )
 "parameters/BlendSpace2D 2/blend_position" = Vector2( 0, 0 )
+"parameters/BlendSpace2D 3/blend_position" = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 offset = Vector2( 0, -13 )
 
 [node name="hitbox" type="Area2D" parent="Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/hitbox"]
-position = Vector2( -0.110184, -11.2221 )
-shape = SubResource( 19 )
+position = Vector2( -0.0994415, -11.2367 )
+shape = SubResource( 21 )
