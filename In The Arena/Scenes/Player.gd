@@ -142,29 +142,33 @@ func find_target():
 	var enemies = get_tree().get_nodes_in_group("actors")
 	var closestEnemy
 	var closestDistance = 99999999
+	body.target = null
 	for enemy in enemies:
 		if enemy != body and !enemy.dead:
 			
 			var p = enemy.position - body.position 
-			var mag = abs(sqrt( p.x * p.x + p.y * p.y ))
+			var mag = sqrt( p.x * p.x + p.y * p.y )
 			if mag < closestDistance:
+				closestDistance = mag
 				closestEnemy = enemy
+	
 	body.target = closestEnemy
 	return true
 
 func melee_attack():
+	
 	if target.dead:
-		return true
+		target = null
 	if !target:
-		return false
+		return true
 	var p = target.position - position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
 	facing = p/mag
 	
 	var dot =  facing.x * target.facing.x + facing.y * target.facing.y
 	
-	var H = ((dot * weapon.hitChance())) + (weapon.hitChance())
-	
+	var H = ((dot * weapon.hitChance())) + (100 * int(target.stunned))
+	print(H)
 	
 	parryCounter += 1
 	if parryCounter < parryOn:
@@ -181,7 +185,7 @@ func melee_attack():
 		DeltaV = facing * (body.moveSpeed * 2)
 	elif weapon.readyToQueue:
 		var temp = facing
-		var angle = (PI/2 + randf()*PI/3)
+		var angle = (PI/2)
 		facing.x = temp.x * cos(angle) - temp.y * sin(angle)
 		facing.y = temp.x * sin(angle) + temp.y * cos(angle)
 		DeltaV = facing * (body.moveSpeed)
@@ -230,7 +234,7 @@ func GOAP():
 
 func calculate_goal():
 	var goal = ""
-	goal = "damage_target "
+	goal = "kill_target "
 	
 	if goal == "":
 		goal = "idle "

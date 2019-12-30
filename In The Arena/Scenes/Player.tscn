@@ -144,7 +144,7 @@ cost = 1.0
 script = ExtResource( 9 )
 action = "GOAPAction"
 preconditions = "has_target in_range"
-effect = "damage_target"
+effect = "kill_target"
 cost = 1.0
 
 [node name="bow_attack" type="Node" parent="GOAPActionPlanner"]
