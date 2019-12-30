@@ -11,7 +11,7 @@ var weaponDamage = {"Sword": 2}
 var comboLengths = {"Sword": 2}
 
 onready var anim = $AnimHandler
-onready var hitbox = $Sprite/hitbox
+onready var hitbox = $sprite/hitbox
 onready var holder = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +25,6 @@ func hitChance():
 
 func reset():
 	placeInCombo = 0
-	anim.play("Idle")
 	readyToQueue = true
 
 func parry():
@@ -41,16 +40,13 @@ func parry():
 func attack():
 	if !readyToQueue:
 		return
-	
 	placeInCombo+=1
 	anim.play(weaponName + "Attack" + String(placeInCombo))
 	if placeInCombo == comboLengths[weaponName]:
 		placeInCombo = 0
 	
-	for actor in get_tree().get_nodes_in_group("actors"):
-		if actor == holder:
-			continue
-		if hitbox.overlaps_area( actor.collisionShape ):
+	for actor in hitbox.get_overlapping_bodies():
+		if actor == holder.target:
 			actor.health -= 1
 
 func _process(delta):

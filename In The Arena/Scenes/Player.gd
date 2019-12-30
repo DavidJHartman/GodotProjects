@@ -3,7 +3,7 @@ extends KinematicBody2D
 onready var anim = $sprite/AnimHandler
 onready var weapon = $sprite/Weapon
 onready var state_handler = $stateProcess
-onready var collisionShape = $CollisionShape2D
+onready var hitbox = $Hitbox
 onready var stunTimer = $StunTimer
 
 var Velocity = Vector2(0,0)
@@ -14,7 +14,7 @@ var moveSpeed = 250
 
 var stunned = false
 var dead = false
-var health = 3
+var health = 30
 
 
 var moveTowardsTarget = false
@@ -58,13 +58,8 @@ func _process(delta):
 		return
 	
 	if stunned:
-		$StunTimer.start()
+		weapon.placeInCombo = 0
 		yield($StunTimer, "timeout")
-		print("Exit stun")
-		weapon.reset()
-		target = null
-		stunned = false
-		GOAP()
 		pass
 	
 	if !AI:
@@ -148,7 +143,7 @@ func find_target():
 	var closestEnemy
 	var closestDistance = 99999999
 	for enemy in enemies:
-		if enemy != body:
+		if enemy != body and !enemy.dead:
 			
 			var p = enemy.position - body.position 
 			var mag = abs(sqrt( p.x * p.x + p.y * p.y ))
@@ -158,6 +153,8 @@ func find_target():
 	return true
 
 func melee_attack():
+	if target.dead:
+		return true
 	if !target:
 		return false
 	var p = target.position - position
@@ -204,6 +201,8 @@ func GOAP():
 	if !action_planner:
 		pass
 	while 1:
+		if dead:
+			return
 		#count += 1
 		if $StunTimer.is_stopped() == false:
 			break
@@ -254,4 +253,8 @@ func _on_ChangeDirection_timeout():
 
 func _on_StunTimer_timeout():
 	stunned = false
+	weapon.reset()
+	target = null
+	DeltaV = Vector2()
+	GOAP()
 	pass # Replace with function body.

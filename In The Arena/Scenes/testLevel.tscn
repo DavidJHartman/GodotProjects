@@ -3,8 +3,6 @@
 [ext_resource path="res://Scenes/testLevel.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 
-
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -28,4 +26,16 @@ AI = true
 "actors",
 ] instance=ExtResource( 2 )]
 position = Vector2( 46, 0 )
+AI = true
+
+[node name="AI2" parent="." groups=[
+"actors",
+] instance=ExtResource( 2 )]
+position = Vector2( 1.64967, -52.0199 )
+AI = true
+
+[node name="AI3" parent="." groups=[
+"actors",
+] instance=ExtResource( 2 )]
+position = Vector2( 0.649261, 52.6869 )
 AI = true
