@@ -10,6 +10,8 @@ var weaponFacingChance = {"Sword": 65}
 var weaponDamage = {"Sword": 2}
 var comboLengths = {"Sword": 2}
 
+export var parry = false
+
 onready var anim = $AnimHandler
 onready var hitbox = $sprite/hitbox
 onready var holder = null
@@ -29,10 +31,12 @@ func reset():
 
 func parry():
 	anim.play(weaponName + "Parry")
+
+func parry_check():
 	for weapon in get_tree().get_nodes_in_group("weapons"):
 		if weapon == self:
 			continue
-		if hitbox.overlaps_area( weapon.hitbox ) and weapon.placeInCombo != 0:
+		if hitbox.overlaps_area( weapon.hitbox ) and weapon.placeInCombo != 0 and parry == true:
 			if weapon.holder:
 				weapon.holder.stunned = true
 				weapon.holder.stunTimer.start()
@@ -50,7 +54,8 @@ func attack():
 			actor.health -= 1
 
 func _process(delta):
-	
+	if parry == true:
+		parry_check()
 	pass
 
 func set_angle(theta):

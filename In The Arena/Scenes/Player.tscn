@@ -164,6 +164,6 @@ script = ExtResource( 10 )
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
 script = ExtResource( 11 )
-[connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
+[connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
