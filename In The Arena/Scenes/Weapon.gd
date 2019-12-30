@@ -18,7 +18,6 @@ func _ready():
 	screensize = Vector2(ProjectSettings.get_setting("display/window/size/width"),ProjectSettings.get_setting("display/window/size/height"))
 	add_to_group('weapons')
 	weaponName = "Sword"
-
 	pass # Replace with function body.
 
 func hitChance():
@@ -37,6 +36,7 @@ func parry():
 		if hitbox.overlaps_area( weapon.hitbox ) and weapon.placeInCombo != 0:
 			if weapon.holder:
 				weapon.holder.stunned = true
+				weapon.holder.stunTimer.start()
 
 func attack():
 	if !readyToQueue:

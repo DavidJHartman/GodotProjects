@@ -4,6 +4,7 @@ onready var anim = $sprite/AnimHandler
 onready var weapon = $sprite/Weapon
 onready var state_handler = $stateProcess
 onready var collisionShape = $CollisionShape2D
+onready var stunTimer = $StunTimer
 
 var Velocity = Vector2(0,0)
 var DeltaV = Vector2()
@@ -64,6 +65,7 @@ func _process(delta):
 		target = null
 		stunned = false
 		GOAP()
+		pass
 	
 	if !AI:
 		var unitVector
@@ -249,7 +251,6 @@ func calculate_state():
 func _on_ChangeDirection_timeout():
 	swapDirection *= -1
 	pass # Replace with function body.
-
 
 func _on_StunTimer_timeout():
 	stunned = false
