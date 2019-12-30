@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var anim = $sprite/AnimHandler
 onready var weapon = $sprite/Weapon
 onready var state_handler = $stateProcess
+onready var collisionShape = $CollisionShape2D
 
 var Velocity = Vector2(0,0)
 var DeltaV = Vector2()
@@ -11,6 +12,8 @@ var maxSpeed = 70
 var moveSpeed = 250
 
 var stunned = false
+var dead = false
+var health = 3
 
 
 var moveTowardsTarget = false
@@ -46,12 +49,21 @@ func _ready():
 		initialState = 'idle'
 
 func _process(delta):
+	if health == 0:
+		dead = true
+
+	if dead:
+		anim.play("dead")
+		return
 	
 	if stunned:
-		weapon.reset()
-		stunned = false
 		$StunTimer.start()
 		yield($StunTimer, "timeout")
+		print("Exit stun")
+		weapon.reset()
+		target = null
+		stunned = false
+		GOAP()
 	
 	if !AI:
 		var unitVector
@@ -87,7 +99,6 @@ func _process(delta):
 		Velocity.x = 0
 	if abs(Velocity.y) < 1:
 		Velocity.y = 0
-	
 	move_and_slide(Velocity)
 	weapon.holder.position = position
 
@@ -135,12 +146,12 @@ func find_target():
 	var closestEnemy
 	var closestDistance = 99999999
 	for enemy in enemies:
-		if enemy == body:
-			continue
-		var p = enemy.position - body.position 
-		var mag = abs(sqrt( p.x * p.x + p.y * p.y ))
-		if mag < closestDistance:
-			closestEnemy = enemy
+		if enemy != body:
+			
+			var p = enemy.position - body.position 
+			var mag = abs(sqrt( p.x * p.x + p.y * p.y ))
+			if mag < closestDistance:
+				closestEnemy = enemy
 	body.target = closestEnemy
 	return true
 
@@ -165,6 +176,8 @@ func melee_attack():
 		parryCounter = 0
 	
 	if randi()%100 < H and weapon.placeInCombo != weapon.comboLengths[weapon.weaponName]:
+		if weapon.readyToQueue == false:
+			return false
 		weapon.attack()
 		DeltaV = facing * (body.moveSpeed * 2)
 	elif weapon.readyToQueue:
@@ -190,17 +203,10 @@ func GOAP():
 		pass
 	while 1:
 		#count += 1
-		
+		if $StunTimer.is_stopped() == false:
+			break
 		var plan : Array = action_planner.plan(calculate_state(), calculate_goal())
 		for action in plan:
-			if stunned:
-				plan = Array()
-				target = null
-				DeltaV = Vector2()
-				$StunTimer.start()
-				yield($StunTimer, "timeout")
-				stunned = false
-				weapon.reset()
 			
 			var error = false
 			
@@ -242,4 +248,9 @@ func calculate_state():
 
 func _on_ChangeDirection_timeout():
 	swapDirection *= -1
+	pass # Replace with function body.
+
+
+func _on_StunTimer_timeout():
+	stunned = false
 	pass # Replace with function body.
