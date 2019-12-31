@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Characters/Dummy.png" type="Texture" id=2]
@@ -9,8 +9,9 @@
 [ext_resource path="res://Scenes/load.gd" type="Script" id=7]
 [ext_resource path="res://addons/goap/goap_action_planner.gd" type="Script" id=8]
 [ext_resource path="res://addons/goap/goap_action.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/ChangeDirection.gd" type="Script" id=10]
-[ext_resource path="res://Scenes/StunTimer.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Timer.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/ChangeDirection.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/StunTimer.gd" type="Script" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "dead"
@@ -156,14 +157,15 @@ cost = 1.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
+script = ExtResource( 10 )
 
 [node name="ChangeDirection" type="Timer" parent="."]
 autostart = true
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
-script = ExtResource( 11 )
+script = ExtResource( 12 )
 [connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]

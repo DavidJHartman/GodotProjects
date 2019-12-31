@@ -38,5 +38,5 @@ AI = true
 [node name="AI3" parent="." groups=[
 "actors",
 ] instance=ExtResource( 2 )]
-position = Vector2( -90.7191, 36.6807 )
+position = Vector2( 115.026, 36.3473 )
 AI = true

@@ -129,6 +129,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Vector2( 0, -13 ), Vector2( 14, -6 ), Vector2( 13, 0 ), Vector2( -4, -9 ), Vector2( -13, -5 ), Vector2( 0, -13 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:parryable")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.3, 0.36 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [sub_resource type="Animation" id=3]
 length = 0.4
@@ -193,6 +205,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Vector2( -13, -5 ), Vector2( -3, -13 ), Vector2( 13, 0 ), Vector2( 0, -13 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:parryable")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.05, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [sub_resource type="Animation" id=4]
 length = 0.5
@@ -251,7 +275,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -262,9 +286,7 @@ extents = Vector2( 2.15298, 8.84492 )
 
 [node name="Weapon" type="Node2D"]
 script = ExtResource( 1 )
-placeInCombo = 2
 readyToQueue = true
-parry = true
 
 [node name="AnimHandler" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 1 )
@@ -276,8 +298,7 @@ anims/SwordParry = SubResource( 4 )
 anim_player = NodePath("../AnimHandler")
 
 [node name="sprite" type="Sprite" parent="."]
-position = Vector2( -13, -5 )
-rotation = -0.872665
+position = Vector2( 0, -13 )
 texture = ExtResource( 2 )
 
 [node name="hitbox" type="Area2D" parent="sprite"]

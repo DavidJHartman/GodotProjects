@@ -5,6 +5,7 @@ var screensize = Vector2()
 var weaponName = String()
 export var placeInCombo = 0
 export var readyToQueue = false
+export var parryable = false
 
 var weaponFacingChance = {"Sword": 65}
 var weaponDamage = {"Sword": 2}

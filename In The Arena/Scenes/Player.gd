@@ -42,7 +42,7 @@ func _ready():
 	weapon.holder = self
 	if AI:
 		GOAP()
-		parryOn = (randi()%30)+1
+		parryOn = (randi()%20)+1
 		parryOff = 60
 		parryCounter = 0
 	else:
@@ -60,7 +60,6 @@ func _process(delta):
 	if stunned:
 		weapon.placeInCombo = 0
 		yield($StunTimer, "timeout")
-		pass
 	
 	if !AI:
 		var unitVector
@@ -159,38 +158,34 @@ func melee_attack():
 	
 	if target.dead:
 		target = null
-	if !target:
-		return true
-	var p = target.position - position
-	var mag  = sqrt( p.x * p.x + p.y * p.y )
-	facing = p/mag
+	if target != null:
+		var p = target.position - position
+		var mag  = sqrt( p.x * p.x + p.y * p.y )
+		facing = p/mag
 	
-	var dot =  facing.x * target.facing.x + facing.y * target.facing.y
+		var dot =  facing.x * target.facing.x + facing.y * target.facing.y
 	
-	var H = ((dot * weapon.hitChance())) + (100 * int(target.stunned))
-	print(H)
+		var H = ((dot * weapon.hitChance()))
 	
-	parryCounter += 1
-	if parryCounter < parryOn:
-		if target.weapon.placeInCombo != 0:
-			weapon.parry()
-			return false
-	if parryCounter == parryOff:
-		parryCounter = 0
+		parryCounter += 1
+		if parryCounter < parryOn:
+			if target.weapon.placeInCombo != 0:
+				weapon.parry()
+				return false
+		if parryCounter == parryOff:
+			parryCounter = 0
 	
-	if randi()%100 < H and weapon.placeInCombo != weapon.comboLengths[weapon.weaponName]:
-		if weapon.readyToQueue == false:
-			return false
-		weapon.attack()
-		DeltaV = facing * (body.moveSpeed * 2)
-	elif weapon.readyToQueue:
-		var temp = facing
-		var angle = (PI/2)
-		facing.x = temp.x * cos(angle) - temp.y * sin(angle)
-		facing.y = temp.x * sin(angle) + temp.y * cos(angle)
-		DeltaV = facing * (body.moveSpeed)
+		if randi()%100 < H and weapon.readyToQueue:
+			weapon.attack()
+			DeltaV = facing * (body.moveSpeed * 2)
+		elif !weapon.readyToQueue:
+			var temp = facing
+			var angle = (PI/2)
+			facing.x = temp.x * cos(angle) - temp.y * sin(angle)
+			facing.y = temp.x * sin(angle) + temp.y * cos(angle)
+			DeltaV = facing * (body.moveSpeed)
 	
-	return false
+	return true
 
 func idle():
 	moveTowardsTarget = false
