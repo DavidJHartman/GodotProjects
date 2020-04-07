@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Characters/Dummy.png" type="Texture" id=2]
@@ -55,6 +55,23 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 
+[sub_resource type="Animation" id=5]
+resource_name = "stunned"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( -1, 0 ) ]
+}
+
 [sub_resource type="Animation" id=3]
 length = 0.6
 loop = true
@@ -84,7 +101,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 5.76018
+radius = 3.66037
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -95,11 +112,10 @@ texture = ExtResource( 2 )
 [node name="AnimHandler" type="AnimationPlayer" parent="sprite"]
 anims/dead = SubResource( 1 )
 anims/idle = SubResource( 2 )
+anims/stunned = SubResource( 5 )
 anims/walk = SubResource( 3 )
 
 [node name="Weapon" parent="sprite" instance=ExtResource( 3 )]
-
-[node name="AnimationTree" type="AnimationTree" parent="sprite"]
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5.68494 )
@@ -125,35 +141,26 @@ script = ExtResource( 9 )
 action = "GOAPAction"
 preconditions = "has_target"
 effect = "in_range"
-cost = 1.0
 
 [node name="find_target" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
-preconditions = ""
 effect = "has_target"
-cost = 1.0
 
 [node name="idle" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
-preconditions = ""
 effect = "idle"
-cost = 1.0
 
 [node name="melee_attack" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "GOAPAction"
 preconditions = "has_target in_range"
 effect = "kill_target"
-cost = 1.0
 
 [node name="bow_attack" type="Node" parent="GOAPActionPlanner"]
 script = ExtResource( 9 )
 action = "bow_attack"
-preconditions = ""
-effect = ""
-cost = 1.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
@@ -166,6 +173,6 @@ script = ExtResource( 11 )
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
 script = ExtResource( 12 )
-[connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="ChangeDirection" to="ChangeDirection" method="_on_ChangeDirection_timeout"]
+[connection signal="timeout" from="ChangeDirection" to="." method="_on_ChangeDirection_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]

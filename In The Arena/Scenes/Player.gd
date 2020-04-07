@@ -10,7 +10,8 @@ var Velocity = Vector2(0,0)
 var DeltaV = Vector2()
 var facing = Vector2()
 var maxSpeed = 70
-var moveSpeed = 250
+var moveSpeed = 400
+var sprintMultiplier = 3
 
 var stunned = false
 var dead = false
@@ -58,6 +59,7 @@ func _process(delta):
 		return
 	
 	if stunned:
+		anim.play("stunned")
 		weapon.placeInCombo = 0
 		yield($StunTimer, "timeout")
 	
@@ -91,12 +93,11 @@ func _process(delta):
 	else:
 		Velocity *= .9
 	#Stop moving when slow enough
-	if abs(Velocity.x) < 1:
+	if abs(Velocity.x) < .01:
 		Velocity.x = 0
-	if abs(Velocity.y) < 1:
+	if abs(Velocity.y) < .01:
 		Velocity.y = 0
 	move_and_slide(Velocity)
-	weapon.holder.position = position
 
 func inputProcessing():
 	DeltaV = Vector2(0,0)
@@ -111,7 +112,7 @@ func inputProcessing():
 	DeltaV.normalized()
 	DeltaV *= moveSpeed
 	if Input.is_action_pressed('sprint'):
-		DeltaV *= 2
+		DeltaV *= sprintMultiplier
 	if Input.is_action_just_pressed("leftClick"):
 		weapon.attack()
 	if Input.is_action_just_pressed("rightClick"):
@@ -125,14 +126,17 @@ func rangetotarget():
 	return mag
 
 func walk_to():
+	
+	anim.play("walk")
+	
 	if !target:
 		return false
 	var p = target.position - position
 	var mag  = sqrt( p.x * p.x + p.y * p.y )
 	facing = p/mag
 	
-	if rangetotarget() > 35:
-		DeltaV = facing * body.moveSpeed * 2
+	if rangetotarget() > 50:
+		DeltaV = facing * body.moveSpeed * sprintMultiplier
 	else:
 		return true
 	return false
@@ -155,7 +159,7 @@ func find_target():
 	return true
 
 func melee_attack():
-	
+	DeltaV = Vector2(0,0)
 	if target.dead:
 		target = null
 	if target != null:
@@ -165,29 +169,35 @@ func melee_attack():
 	
 		var dot =  facing.x * target.facing.x + facing.y * target.facing.y
 	
-		var H = ((dot * weapon.hitChance()))
-	
+		var H = ((dot/2+1) * weapon.hitChance())
+		
+		print(H)
+		
 		parryCounter += 1
-		if parryCounter < parryOn:
-			if target.weapon.placeInCombo != 0:
+		if parryCounter < parryOn and weapon.anim.current_animation == "Idle":
+			if target.weapon.anim.is_playing():
 				weapon.parry()
 				return false
 		if parryCounter == parryOff:
 			parryCounter = 0
-	
 		if randi()%100 < H and weapon.readyToQueue:
 			weapon.attack()
-			DeltaV = facing * (body.moveSpeed * 2)
-		elif !weapon.readyToQueue:
-			var temp = facing
-			var angle = (PI/2)
-			facing.x = temp.x * cos(angle) - temp.y * sin(angle)
-			facing.y = temp.x * sin(angle) + temp.y * cos(angle)
-			DeltaV = facing * (body.moveSpeed)
+			DeltaV = facing * (body.moveSpeed * sprintMultiplier)
+		elif weapon.readyToQueue:
+			if randi()%10<8:
+				var temp = facing
+				var angle = (PI/2)
+				facing.x = temp.x * cos(angle) - temp.y * sin(angle)
+				facing.y = temp.x * sin(angle) + temp.y * cos(angle)
+				DeltaV = facing * (body.moveSpeed)
+	
+	if Velocity != Vector2(0,0):
+		anim.play("walk")
 	
 	return true
 
 func idle():
+	DeltaV = Vector2()
 	moveTowardsTarget = false
 	if anim.current_animation != "idle":
 		anim.play("idle")

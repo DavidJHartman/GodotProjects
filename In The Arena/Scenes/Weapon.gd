@@ -7,7 +7,7 @@ export var placeInCombo = 0
 export var readyToQueue = false
 export var parryable = false
 
-var weaponFacingChance = {"Sword": 65}
+var weaponFacingChance = {"Sword": 5}
 var weaponDamage = {"Sword": 2}
 var comboLengths = {"Sword": 2}
 
@@ -21,13 +21,14 @@ func _ready():
 	screensize = Vector2(ProjectSettings.get_setting("display/window/size/width"),ProjectSettings.get_setting("display/window/size/height"))
 	add_to_group('weapons')
 	weaponName = "Sword"
+	readyToQueue = true
 	pass # Replace with function body.
 
 func hitChance():
 	return weaponFacingChance[weaponName]
 
 func reset():
-	placeInCombo = 0
+	placeInCombo = 1
 	readyToQueue = true
 
 func parry():
@@ -45,11 +46,7 @@ func parry_check():
 func attack():
 	if !readyToQueue:
 		return
-	placeInCombo+=1
 	anim.play(weaponName + "Attack" + String(placeInCombo))
-	if placeInCombo == comboLengths[weaponName]:
-		placeInCombo = 0
-	
 	for actor in hitbox.get_overlapping_bodies():
 		if actor == holder.target:
 			actor.health -= 1
@@ -57,6 +54,10 @@ func attack():
 func _process(delta):
 	if parry == true:
 		parry_check()
+	if anim.current_animation != "idle" and anim.current_animation != "parry":
+		for actor in hitbox.get_overlapping_bodies():
+			if actor == holder.target:
+				actor.health -= 1
 	pass
 
 func set_angle(theta):
