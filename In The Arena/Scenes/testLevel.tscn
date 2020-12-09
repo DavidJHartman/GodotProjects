@@ -10,7 +10,7 @@ script = ExtResource( 1 )
 [node name="Arena" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Arena"]
-position = Vector2( 2.33337, 0.642089 )
+position = Vector2( 2.75149, 0.223975 )
 build_mode = 1
 polygon = PoolVector2Array( 180, -100, 180, 100, -180, 100, -180, -100 )
 

@@ -171,7 +171,6 @@ func melee_attack():
 	
 		var H = ((dot/2+1) * weapon.hitChance())
 		
-		print(H)
 		
 		parryCounter += 1
 		if parryCounter < parryOn and weapon.anim.current_animation == "Idle":
@@ -182,8 +181,9 @@ func melee_attack():
 			parryCounter = 0
 		if randi()%100 < H and weapon.readyToQueue:
 			weapon.attack()
+		if !weapon.readyToQueue:
 			DeltaV = facing * (body.moveSpeed * sprintMultiplier)
-		elif weapon.readyToQueue:
+		elif weapon.anim.current_animation == "Idle":
 			if randi()%10<8:
 				var temp = facing
 				var angle = (PI/2)

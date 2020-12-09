@@ -295,8 +295,8 @@ anims/SwordAttack2 = SubResource( 3 )
 anims/SwordParry = SubResource( 4 )
 
 [node name="sprite" type="Sprite" parent="."]
-position = Vector2( -13, -5 )
-rotation = -0.872665
+position = Vector2( 0.682481, -12.6588 )
+rotation = 0.0399887
 texture = ExtResource( 2 )
 
 [node name="hitbox" type="Area2D" parent="sprite"]

@@ -12,6 +12,7 @@ var weaponDamage = {"Sword": 2}
 var comboLengths = {"Sword": 2}
 
 export var parry = false
+var readyToHit
 
 onready var anim = $AnimHandler
 onready var hitbox = $sprite/hitbox
@@ -52,12 +53,17 @@ func attack():
 			actor.health -= 1
 
 func _process(delta):
+	if anim.current_animation == "idle" or !anim.is_playing():
+		readyToHit = true
 	if parry == true:
 		parry_check()
 	if anim.current_animation != "idle" and anim.current_animation != "parry":
 		for actor in hitbox.get_overlapping_bodies():
 			if actor == holder.target:
-				actor.health -= 1
+				if readyToHit:
+					actor.health -= 1
+				readyToHit = false
+		
 	pass
 
 func set_angle(theta):
