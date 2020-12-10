@@ -4,6 +4,7 @@ extends Node2D
 
 #public variables
 var initial_state : String
+var facing_right : bool
 
 #private variables
 
@@ -14,6 +15,7 @@ onready var animation_player = $AnimationPlayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	initial_state = "Idle"
+	facing_right = true
 	pass # Replace with function body.
 
 
