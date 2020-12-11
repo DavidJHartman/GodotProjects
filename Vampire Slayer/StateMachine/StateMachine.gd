@@ -44,6 +44,7 @@ var _motion_input_frame_reset : int = 7
 var _motion_input_current_frame = 0
 var _current_state
 var _input_just_happened = false
+var charge = false
 
 #onready variables
 onready var player = get_parent()
@@ -75,27 +76,40 @@ func _process(delta):
 		motion_direction.y += 1
 	
 	if Input.is_action_just_pressed("move_right"):
-		_input_just_happened = true
-		motion_direction.x += 1
+		if Input.is_action_pressed("move_left"):
+			charge = true
+		else:
+			_input_just_happened = true
+			motion_direction.x += 1
 	elif Input.is_action_just_released("move_right"):
 		_input_just_happened = true
-		motion_direction.x -= 1
+		if charge == false:
+			motion_direction.x -= 1
+		elif charge == true and motion_direction.x == 1:
+			motion_direction.x = -1
+		charge = false
 	
 	if Input.is_action_just_pressed("move_left"):
-		_input_just_happened = true
-		motion_direction.x -= 1
+		if Input.is_action_pressed("move_right"):
+			charge = true
+		else:
+			_input_just_happened = true
+			motion_direction.x -= 1
 	elif Input.is_action_just_released("move_left"):
 		_input_just_happened = true
-		motion_direction.x += 1
+		if charge == false:
+			motion_direction.x += 1
+		elif charge == true and motion_direction.x == -1:
+			motion_direction.x = 1
+		charge = false
 	
 	if _input_just_happened:
 		_motion_input_current_frame = 0
 		_motion_input_buffer.append(directions[motion_direction.y+1][motion_direction.x+1])
-		print(_motion_input_buffer)
 	
 	for motion_input in MOTION_INPUTS:
 		if motion_input == _motion_input_buffer:
-			print(MOTION_INPUTS[motion_input])
+			print("")
 	
 	if _motion_input_current_frame == _motion_input_frame_reset:
 		_motion_input_buffer.clear()
