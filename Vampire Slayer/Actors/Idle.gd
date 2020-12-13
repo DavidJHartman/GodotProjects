@@ -10,23 +10,35 @@ class_name Idle
 #public variables
 var cancellable = true
 var breaks_momentum = false
+var motion_input : String
 
 #private variables
 var _state_name = "Idle"
 var _keys
 
 #onready variables
-onready var parent = get_parent()
+onready var state = get_parent()
+onready var player = state.get_parent()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	parent.state_dictionary[_state_name] = self
+	state.state_dictionary[_state_name] = self
+	state.update_state(_state_name)
 	pass # Replace with function body.
 
-func update(body):
-	if parent.inputs.size()!=0:
-		if parent.inputs["Left"] >= 0:
-			print("Nothing")
+func update():
+	player.velocity = Vector2.ZERO
+	player.deltav = Vector2.ZERO
+	
+	if !player.is_on_floor():
+		state.update_state("Falling")
+		pass
+	elif state.motion_direction.x != 0:
+		state.update_state("Walking")
+		pass
+	elif state.motion_direction.y == 1:
+		state.update_state("Jump")
+		pass
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

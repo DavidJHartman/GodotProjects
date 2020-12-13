@@ -1,6 +1,6 @@
 extends Node
 
-class_name State
+class_name Dash
 
 
 # Declare member variables here. Examples:
@@ -10,10 +10,9 @@ class_name State
 #public variables
 var cancellable = true
 var breaks_momentum = false
-var motion_input : String
 
 #private variables
-var _state_name = "Idle"
+var _state_name = "Dash"
 
 #onready variables
 onready var state = get_parent()
@@ -25,7 +24,10 @@ func _ready():
 	pass # Replace with function body.
 
 func update():
-	
+	if !player.is_on_floor():
+		state.update_state("Falling")
+		pass
+	state.update_state("Idle")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

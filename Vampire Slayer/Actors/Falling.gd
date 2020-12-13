@@ -1,6 +1,6 @@
 extends Node
 
-class_name State
+class_name Falling
 
 
 # Declare member variables here. Examples:
@@ -13,7 +13,9 @@ var breaks_momentum = false
 var motion_input : String
 
 #private variables
-var _state_name = "Idle"
+var _state_name = "Falling"
+var _coyote_time = 7
+var _fall_timer = 0
 
 #onready variables
 onready var state = get_parent()
@@ -25,6 +27,17 @@ func _ready():
 	pass # Replace with function body.
 
 func update():
+	_fall_timer += 1
+	if _fall_timer <= _coyote_time:
+		if state.motion_direction.y == 1:
+			state.update_state("Jump")
+			pass
+	player.deltav.y += player.GRAVITY
+	player.velocity += player.deltav
+	
+	player.move_and_slide( player.velocity, Vector2(0,-1) )
+	if player.is_on_floor():
+		state.update_state("Idle")
 	
 	pass
 

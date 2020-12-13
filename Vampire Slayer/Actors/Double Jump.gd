@@ -1,6 +1,6 @@
 extends Node
 
-class_name State
+class_name DoubleJump
 
 
 # Declare member variables here. Examples:
@@ -13,7 +13,7 @@ var breaks_momentum = false
 var motion_input : String
 
 #private variables
-var _state_name = "Idle"
+var _state_name = "Double Jump"
 
 #onready variables
 onready var state = get_parent()
@@ -25,7 +25,11 @@ func _ready():
 	pass # Replace with function body.
 
 func update():
-	
+	player.deltav.y += player.GRAVITY
+	player.velocity += player.deltav
+	player.velocity.y = -player.jump_speed
+	player.move_and_slide( player.velocity, Vector2(0,-1) )
+	state.update_state("Falling")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
