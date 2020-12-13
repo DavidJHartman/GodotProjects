@@ -70,7 +70,6 @@ func input_handling():
 	_input_just_happened = false
 	_execute_motion_input = false
 	if Input.is_action_just_pressed("attack"):
-		_input_just_happened = true
 		_motion_input_buffer.append("Attack")
 		_execute_motion_input = true
 	if Input.is_action_just_pressed("move_up"):
@@ -109,7 +108,6 @@ func input_handling():
 	
 	
 	if (_motion_input_current_frame == _motion_input_frame_reset) or _execute_motion_input:
-		print(_motion_input_buffer)
 		for motion_input in MOTION_INPUTS:
 			if motion_input == _motion_input_buffer:
 				_current_state.motion_input = MOTION_INPUTS[motion_input]

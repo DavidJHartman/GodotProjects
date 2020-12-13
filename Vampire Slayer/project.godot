@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Actors/Double Jump.gd"
 }, {
 "base": "Node",
+"class": "DragonPunch",
+"language": "GDScript",
+"path": "res://Actors/Dragon Punch.gd"
+}, {
+"base": "Node",
 "class": "Falling",
 "language": "GDScript",
 "path": "res://Actors/Falling.gd"
@@ -52,6 +57,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Dash": "",
 "DoubleJump": "",
+"DragonPunch": "",
 "Falling": "",
 "Idle": "",
 "Jump": "",

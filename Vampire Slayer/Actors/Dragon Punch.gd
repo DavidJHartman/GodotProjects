@@ -1,8 +1,9 @@
 extends Node
 
-class_name Idle
+class_name DragonPunch
 
-
+export var jump : bool = false
+export var falling : bool = false
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -13,8 +14,7 @@ var breaks_momentum = false
 var motion_input : String
 
 #private variables
-var _state_name = "Idle"
-var _keys
+var _state_name = "Dragon Punch"
 
 #onready variables
 onready var state = get_parent()
@@ -23,29 +23,22 @@ onready var player = state.get_parent()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	state.state_dictionary[_state_name] = self
-	state.update_state(_state_name)
 	pass # Replace with function body.
 
 func update():
-	player.animation_player.play("Idle")
-	player.velocity.y = 0
-	player.deltav.y = 0
-	
-	match motion_input:
-		"DPR":
-			state.update_state("Dragon Punch")
-		"DPL":
-			state.update_state("Dragon Punch")
-	
-	if !player.is_on_floor():
+	if !player.animation_player.current_animation == "Dragon Punch":
+		jump = false
+		player.animation_player.play("Dragon Punch")
+		player.velocity = Vector2.ZERO
+		player.deltav = Vector2.ZERO
+	if jump:
+		player.velocity.x = 10
+		player.velocity.y = -player.dragon_punch_speed
+	player.deltav.y += player.GRAVITY
+	player.velocity += player.deltav
+	player.move_and_slide(player.velocity, Vector2(0,-1))
+	if falling:
 		state.update_state("Falling")
-		pass
-	elif state.motion_direction.x != 0:
-		state.update_state("Walking")
-		pass
-	elif state.motion_direction.y == 1:
-		state.update_state("Jump")
-		pass
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,11 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://StateMachine/State.gd" type="Script" id=1]
 [ext_resource path="res://StateMachine/StateMachine.gd" type="Script" id=2]
 [ext_resource path="res://Actors/Walking.gd" type="Script" id=3]
 [ext_resource path="res://Actors/Idle.gd" type="Script" id=4]
 [ext_resource path="res://Actors/Player.gd" type="Script" id=5]
-[ext_resource path="res://Art/Characters/Sprite-0001.png" type="Texture" id=6]
+[ext_resource path="res://Actors/Dragon Punch.gd" type="Script" id=6]
 [ext_resource path="res://Dash.gd" type="Script" id=7]
 [ext_resource path="res://Actors/Debug_State_Display.gd" type="Script" id=8]
 [ext_resource path="res://Actors/Debug_Velocity_and_deltav_Display2.gd" type="Script" id=9]
@@ -13,18 +13,128 @@
 [ext_resource path="res://Actors/Debug_On_Ground.gd" type="Script" id=11]
 [ext_resource path="res://Actors/Jump.gd" type="Script" id=12]
 [ext_resource path="res://Actors/Double Jump.gd" type="Script" id=13]
+[ext_resource path="res://Art/Characters/dummy.png" type="Texture" id=14]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 30.4412
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 10, 13.8518 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Dragon Punch"
+length = 0.5
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.116667, 0.183333, 0.266667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 9 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StateMachine/Dragon Punch:jump")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("StateMachine/Dragon Punch:falling")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Light Jab 1"
+length = 0.166667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 11, 12, 11 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Light Jab 2"
+length = 0.0666667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Walking"
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4 ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 5 )
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 0, 2 )
+shape = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 6 )
+texture = ExtResource( 14 )
+hframes = 13
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -50,7 +160,16 @@ script = ExtResource( 12 )
 [node name="Double Jump" type="Node" parent="StateMachine"]
 script = ExtResource( 13 )
 
+[node name="Dragon Punch" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
+jump = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/Dragon Punch" = SubResource( 2 )
+anims/Idle = SubResource( 3 )
+"anims/Light Jab 1" = SubResource( 4 )
+"anims/Light Jab 2" = SubResource( 5 )
+anims/Walking = SubResource( 6 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true

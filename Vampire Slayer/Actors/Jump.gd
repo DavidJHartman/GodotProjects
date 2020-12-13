@@ -30,6 +30,13 @@ func update():
 		_ready = true
 	player.deltav.y += player.GRAVITY
 	player.velocity += player.deltav
+	if player.velocity.y > player.max_fall_speed:
+		player.velocity.y = player.max_fall_speed
+	player.deltav.x = state.motion_direction.x * player.air_speed
+	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
+		player.velocity+=player.deltav
+	else:
+		player.velocity.x = player.max_speed * state.motion_direction.x
 	if state.motion_direction.x == 0 and player.velocity.x != 0:
 		player.velocity.x = floor(player.velocity.x * player.air_friction)
 		if abs(player.velocity.x) <= 1:
@@ -45,7 +52,7 @@ func update():
 		pass
 	if state.motion_direction.y == 1 and _ready == true:
 		_ready = false
-		state.update_state("Double Jump")
+		#state.update_state("Double Jump")
 		pass
 	if player.is_on_floor():
 		state.update_state("Idle")

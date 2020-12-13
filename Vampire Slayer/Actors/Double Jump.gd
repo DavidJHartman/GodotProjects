@@ -2,7 +2,6 @@ extends Node
 
 class_name DoubleJump
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -25,9 +24,12 @@ func _ready():
 	pass # Replace with function body.
 
 func update():
-	player.deltav.y += player.GRAVITY
-	player.velocity += player.deltav
-	player.velocity.y = -player.jump_speed
+	player.deltav.x = state.motion_direction.x * player.air_speed
+	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
+		player.velocity+=player.deltav
+	else:
+		player.velocity.x = player.max_speed * state.motion_direction.x
+	player.velocity.y = -player.jump_speed*2
 	player.move_and_slide( player.velocity, Vector2(0,-1) )
 	state.update_state("Falling")
 	pass

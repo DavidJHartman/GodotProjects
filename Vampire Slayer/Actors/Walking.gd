@@ -50,6 +50,14 @@ func update():
 			state.update_state("Dash")
 			motion_input = ""
 			pass
+		"DPR":
+			state.update_state("Dragon Punch")
+			motion_input = ""
+			pass
+		"DPL":
+			state.update_state("Dragon Punch")
+			motion_input = ""
+			pass
 	if !player.is_on_floor():
 		state.update_state("Falling")
 		pass
