@@ -34,8 +34,14 @@ func update():
 	match motion_input:
 		"DPR":
 			state.update_state("Dragon Punch")
+			pass
 		"DPL":
 			state.update_state("Dragon Punch")
+			pass
+	
+	if Input.is_action_just_pressed("attack"):
+		state.update_state("Light Jab 1")
+		pass
 	
 	if !player.is_on_floor():
 		state.update_state("Falling")

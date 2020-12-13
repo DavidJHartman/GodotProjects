@@ -39,6 +39,26 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Actors/Jump.gd"
 }, {
+"base": "Node",
+"class": "LightJab1",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 1.gd"
+}, {
+"base": "Node",
+"class": "LightJab1Charge",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 1 Charge.gd"
+}, {
+"base": "Node",
+"class": "LightJab1Release",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 1 Release.gd"
+}, {
+"base": "Node",
+"class": "LightJab2",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 2.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -61,6 +81,10 @@ _global_script_class_icons={
 "Falling": "",
 "Idle": "",
 "Jump": "",
+"LightJab1": "",
+"LightJab1Charge": "",
+"LightJab1Release": "",
+"LightJab2": "",
 "Player": "",
 "State": "",
 "Walking": ""
