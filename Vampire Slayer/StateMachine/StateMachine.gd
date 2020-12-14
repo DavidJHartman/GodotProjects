@@ -66,52 +66,42 @@ func _process(delta):
 	input_handling()
 	_current_state.update()
 
+func _unhandled_input(event):
+	if event.is_pressed() and !event.is_echo():
+		_input_just_happened = true
+	elif !event.is_pressed():
+		_input_just_happened = true
+
 func input_handling():
-	_input_just_happened = false
+	motion_direction = Vector2.ZERO
 	_execute_motion_input = false
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_pressed("attack"):
 		_motion_input_buffer.append("Attack")
 		_execute_motion_input = true
-	if Input.is_action_just_pressed("move_up"):
-		_input_just_happened = true
-		motion_direction.y += 1
-	elif Input.is_action_just_released("move_up"):
-		_input_just_happened = true
-		motion_direction.y -= 1
 	
-	if Input.is_action_just_pressed("move_down"):
-		_input_just_happened = true
-		motion_direction.y -= 1
-	elif Input.is_action_just_released("move_down"):
-		_input_just_happened = true
+	if Input.is_action_pressed("move_up"):
 		motion_direction.y += 1
+	
+	if Input.is_action_pressed("move_down"):
+		motion_direction.y -= 1
 	
 	if Input.is_action_just_pressed("move_right"):
-		_input_just_happened = true
 		motion_direction.x += 1
-	elif Input.is_action_just_released("move_right"):
-		_input_just_happened = true
-		motion_direction.x -= 1
 	
 	if Input.is_action_just_pressed("move_left"):
-		_input_just_happened = true
 		motion_direction.x -= 1
-	elif Input.is_action_just_released("move_left"):
-		_input_just_happened = true
-		motion_direction.x += 1
-	
-	if _input_just_happened:
-		_motion_input_current_frame = 0
-		if motion_direction != Vector2.ZERO:
-			_motion_input_buffer.append(directions[motion_direction.y+1][motion_direction.x+1])
-	
-	
 	
 	if (_motion_input_current_frame == _motion_input_frame_reset) or _execute_motion_input:
 		for motion_input in MOTION_INPUTS:
 			if motion_input == _motion_input_buffer:
 				_current_state.motion_input = MOTION_INPUTS[motion_input]
 		_motion_input_buffer.clear()
+	
+	if _input_just_happened:
+		_input_just_happened = false
+		_motion_input_current_frame = 0
+		if motion_direction != Vector2.ZERO:
+			_motion_input_buffer.append(directions[motion_direction.y+1][motion_direction.x+1])
 	
 	_motion_input_current_frame += 1
 

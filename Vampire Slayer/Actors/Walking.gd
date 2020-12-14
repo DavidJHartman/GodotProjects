@@ -25,20 +25,27 @@ func _ready():
 	pass 
 
 func update():
-	player.deltav = Vector2.ZERO
-	player.deltav.x = state.motion_direction.x * player.walking_speed
+	if Input.is_action_pressed("move_left"):
+		player.deltav.x -= player.walking_speed
+	if Input.is_action_pressed("move_right"):
+		player.deltav.x += player.walking_speed
+	
 	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
 		player.velocity+=player.deltav
 	else:
-		player.velocity.x = player.max_speed * state.motion_direction.x
+		if Input.is_action_pressed("move_left"):
+			player.velocity.x = -player.max_speed
+		if Input.is_action_pressed("move_right"):
+			player.velocity.x = player.max_speed
 	
-	if state.motion_direction.x == 0 and player.velocity.x != 0:
+	if player.deltav.x == 0 and player.velocity.x != 0:
 		player.velocity.x = floor(player.velocity.x * player.ground_friction)
 		if abs(player.velocity.x) <= 1:
 			player.velocity.x = 0
 	player.deltav.y = player.GRAVITY
 	
 	player.move_and_slide_with_snap( player.velocity, Vector2(0,30), Vector2(0,-1) )
+	player.deltav = Vector2.ZERO
 	
 	# State Handling
 	match motion_input:
@@ -66,7 +73,7 @@ func update():
 	if player.velocity == Vector2.ZERO:
 		state.update_state( "Idle" )
 		pass
-	if state.motion_direction.y == 1:
+	elif Input.is_action_pressed("move_up"):
 		state.update_state("Jump")
 		pass
 	

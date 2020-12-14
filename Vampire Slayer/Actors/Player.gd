@@ -2,14 +2,14 @@
 class_name Player
 extends KinematicBody2D
 
-const GRAVITY = 4
+const GRAVITY = 30
 
 #public variables
 var initial_state : String
 var facing_right : bool
 var deltav = Vector2(0,0)
 var velocity = Vector2(0,0)
-var jump_speed = 650
+var jump_speed = 500
 var walking_speed = 35
 var running_speed = 50
 var dash_speed = 70

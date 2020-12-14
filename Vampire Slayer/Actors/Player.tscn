@@ -33,10 +33,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.2 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false, true ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("StateMachine/Dragon Punch:falling")
@@ -272,7 +272,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 14 )
 hframes = 22
-frame = 10
+frame = 16
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -300,8 +300,6 @@ script = ExtResource( 13 )
 
 [node name="Dragon Punch" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
-jump = true
-falling = true
 
 [node name="Light Jab 1" type="Node" parent="StateMachine"]
 script = ExtResource( 16 )

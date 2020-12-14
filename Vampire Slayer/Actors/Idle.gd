@@ -28,9 +28,6 @@ func _ready():
 
 func update():
 	player.animation_player.play("Idle")
-	player.velocity.y = 0
-	player.deltav.y = 0
-	
 	match motion_input:
 		"DPR":
 			state.update_state("Dragon Punch")
@@ -46,10 +43,13 @@ func update():
 	if !player.is_on_floor():
 		state.update_state("Falling")
 		pass
-	elif state.motion_direction.x != 0:
+	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		state.update_state("Walking")
 		pass
-	elif state.motion_direction.y == 1:
+	else:
+		player.velocity = Vector2.ZERO
+		player.deltav = Vector2.ZERO
+	if Input.is_action_pressed("move_up"):
 		state.update_state("Jump")
 		pass
 	pass
