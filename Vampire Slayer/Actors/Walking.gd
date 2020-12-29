@@ -33,13 +33,13 @@ func update(delta):
 		state.sprite.scale.x = 1
 	if player.animation_player.current_animation != _state_name:
 		player.animation_player.play(_state_name)
-	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
+	if abs(player.velocity.x + player.deltav.x) < player.max_walk_speed:
 		player.velocity+=player.deltav
 	else:
 		if Input.is_action_pressed("move_left"):
-			player.velocity.x = -player.max_speed
+			player.velocity.x = -player.max_walk_speed
 		if Input.is_action_pressed("move_right"):
-			player.velocity.x = player.max_speed
+			player.velocity.x = player.max_walk_speed
 	
 	if player.deltav.x == 0 and player.velocity.x != 0:
 		player.velocity.x = floor(player.velocity.x * player.ground_friction)
@@ -77,7 +77,7 @@ func update(delta):
 	if player.velocity == Vector2.ZERO:
 		state.update_state( "Idle" )
 		pass
-	elif Input.is_action_pressed("move_up"):
+	elif Input.is_action_just_pressed("move_up"):
 		state.update_state("Jump")
 		pass
 	

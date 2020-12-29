@@ -49,7 +49,7 @@ func update(delta):
 	else:
 		player.velocity = Vector2.ZERO
 		player.deltav = Vector2.ZERO
-	if Input.is_action_pressed("move_up"):
+	if Input.is_action_just_pressed("move_up"):
 		state.update_state("Jump")
 		pass
 	pass

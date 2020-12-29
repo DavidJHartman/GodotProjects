@@ -31,7 +31,7 @@ func update(delta):
 	if _fall_timer <= _coyote_time:
 		player.deltav.y -= player.SLOW_GRAVITY
 	else:
-		player.deltav.y -= player.GRAVITY
+		player.deltav.y -= player.SLOW_GRAVITY
 	player.velocity.y += player.deltav.y * delta
 	if player.velocity.y > player.max_fall_speed:
 		player.velocity.y = player.max_fall_speed
@@ -40,13 +40,13 @@ func update(delta):
 	if Input.is_action_pressed("move_right"):
 		player.deltav.x += player.air_speed
 	
-	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
+	if abs(player.velocity.x + player.deltav.x) < player.max_run_speed:
 		player.velocity.x+=player.deltav.x * delta
 	else:
 		if Input.is_action_pressed("move_left"):
-			player.velocity.x = -player.max_speed
+			player.velocity.x = -player.max_run_speed
 		if Input.is_action_pressed("move_right"):
-			player.velocity.x = player.max_speed
+			player.velocity.x = player.max_run_speed
 	if player.deltav.x == 0 and player.velocity.x != 0:
 		player.velocity.x = floor(player.velocity.x * player.air_friction)
 		if abs(player.velocity.x) <= 1:
