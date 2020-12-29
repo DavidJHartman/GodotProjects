@@ -15,6 +15,7 @@ var motion_input : String
 #private variables
 var _state_name = "Jump"
 var _ready = false
+var _first_run = true
 
 #onready variables
 onready var state = get_parent()
@@ -25,14 +26,19 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	player.deltav = Vector2.ZERO
 	
-	if player.is_on_floor():
+	if _first_run == true:
+		_first_run = false
 		player.velocity.y = -player.jump_speed
+	
 	if state.motion_direction.y == 0:
 		_ready = true
-	player.deltav.y += player.GRAVITY
+	if Input.is_action_pressed("move_up"):
+		player.deltav.y -= player.SLOW_GRAVITY * delta
+	else:
+		player.deltav.y -= player.GRAVITY * delta
 	player.velocity += player.deltav
 	if player.velocity.y > player.max_fall_speed:
 		player.velocity.y = player.max_fall_speed
@@ -60,13 +66,17 @@ func update():
 		state.update_state("Falling")
 	if player.velocity.y == player.max_fall_speed:
 		state.update_state("Falling")
+		_first_run = true
 		pass
 	if state.motion_direction.y == 1 and _ready == true:
 		_ready = false
 		#state.update_state("Double Jump")
+		_first_run = true
 		pass
 	if player.is_on_floor():
+		_first_run = true
 		state.update_state("Idle")
+	
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -24,17 +24,15 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass 
 
-func update():
-	print("start ",player.scale.x)
+func update(delta):
 	if Input.is_action_pressed("move_left"):
 		player.deltav.x -= player.walking_speed
-		player.sprite.scale.x = -1
+		state.sprite.scale.x = -1
 	if Input.is_action_pressed("move_right"):
 		player.deltav.x += player.walking_speed
-		player.sprite.scale.x = -1
+		state.sprite.scale.x = 1
 	if player.animation_player.current_animation != _state_name:
 		player.animation_player.play(_state_name)
-	print("Scale should be -1", player.scale.x)
 	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
 		player.velocity+=player.deltav
 	else:

@@ -26,7 +26,7 @@ func _ready():
 	state.update_state(_state_name)
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	player.animation_player.play("Idle")
 	match motion_input:
 		"DPR":
@@ -37,7 +37,7 @@ func update():
 			pass
 	
 	if Input.is_action_just_pressed("attack"):
-		state.update_state("Light Jab 1")
+		state.update_state("SwordJab1")
 		pass
 	
 	if !player.is_on_floor():

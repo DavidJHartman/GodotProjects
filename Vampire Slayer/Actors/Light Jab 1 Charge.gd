@@ -27,7 +27,7 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	if player.animation_player.current_animation != _state_name:
 		player.animation_player.play("Light Jab 1 Charge")
 	if Input.is_action_just_released("attack_left"):

@@ -23,7 +23,7 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	player.deltav.x = state.motion_direction.x * player.air_speed
 	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
 		player.velocity+=player.deltav

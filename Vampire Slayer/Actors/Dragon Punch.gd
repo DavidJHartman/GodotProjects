@@ -25,7 +25,7 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	if !player.animation_player.current_animation == "Dragon Punch":
 		jump = false
 		player.animation_player.play("Dragon Punch")

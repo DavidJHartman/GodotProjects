@@ -23,7 +23,7 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	if !player.is_on_floor():
 		state.update_state("Falling")
 		pass

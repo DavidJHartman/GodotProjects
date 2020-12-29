@@ -14,7 +14,7 @@ var motion_input : String
 
 #private variables
 var _state_name = "Falling"
-var _coyote_time = 14
+var _coyote_time = 20
 var _fall_timer = 0
 
 #onready variables
@@ -26,10 +26,13 @@ func _ready():
 	state.state_dictionary[_state_name] = self
 	pass # Replace with function body.
 
-func update():
+func update(delta):
 	_fall_timer += 1
-	player.deltav.y += player.GRAVITY
-	player.velocity.y += player.deltav.y
+	if _fall_timer <= _coyote_time:
+		player.deltav.y -= player.SLOW_GRAVITY
+	else:
+		player.deltav.y -= player.GRAVITY
+	player.velocity.y += player.deltav.y * delta
 	if player.velocity.y > player.max_fall_speed:
 		player.velocity.y = player.max_fall_speed
 	if Input.is_action_pressed("move_left"):
@@ -38,7 +41,7 @@ func update():
 		player.deltav.x += player.air_speed
 	
 	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
-		player.velocity.x+=player.deltav.x
+		player.velocity.x+=player.deltav.x * delta
 	else:
 		if Input.is_action_pressed("move_left"):
 			player.velocity.x = -player.max_speed
@@ -54,7 +57,7 @@ func update():
 			state.update_state("Jump")
 			pass
 	
-	player.move_and_slide( player.velocity, Vector2(0,-1) )
+	player.velocity = player.move_and_slide( player.velocity, Vector2(0,-1) )
 	if player.is_on_floor():
 		state.update_state("Idle")
 	

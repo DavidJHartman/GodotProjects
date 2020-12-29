@@ -52,6 +52,7 @@ var _charge
 
 #onready variables
 onready var player = get_parent()
+onready var sprite = get_node("../sprite")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -63,7 +64,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	_current_state.update()
+	_current_state.update(delta)
 	input_handling()
 	
 
