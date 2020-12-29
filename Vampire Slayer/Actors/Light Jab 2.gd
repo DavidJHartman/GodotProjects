@@ -1,6 +1,6 @@
 extends Node
 
-class_name LightJab2
+class_name SwordJab2
 
 
 # Declare member variables here. Examples:
@@ -15,7 +15,7 @@ var breaks_momentum = false
 var motion_input : String
 
 #private variables
-var _state_name = "Light Jab 2"
+var _state_name = "SwordJab2"
 var _charge_counter = 0
 var _charging = false
 
@@ -33,8 +33,8 @@ func update():
 		state.update_state("Idle")
 		return_to_idle = false
 		return
-	if player.animation_player.current_animation != "Light Jab 2":
-		player.animation_player.play("Light Jab 2")
+	if player.animation_player.current_animation != "SwordJab2":
+		player.animation_player.play("SwordJab2")
 		_charging = false
 		_charge_counter = 0
 	if Input.is_action_pressed("attack") and attack_buffer_ready:
@@ -46,7 +46,7 @@ func update():
 			print("Charge Attack")
 		else:
 			_charge_counter = 0
-			state.update_state("Light Jab 1")
+			state.update_state("SwordJab3")
 			pass
 	pass
 

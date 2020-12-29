@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://StateMachine/State.gd" type="Script" id=1]
 [ext_resource path="res://StateMachine/StateMachine.gd" type="Script" id=2]
@@ -13,14 +13,12 @@
 [ext_resource path="res://Actors/Debug_On_Ground.gd" type="Script" id=11]
 [ext_resource path="res://Actors/Jump.gd" type="Script" id=12]
 [ext_resource path="res://Actors/Double Jump.gd" type="Script" id=13]
-[ext_resource path="res://Art/Characters/dummy.png" type="Texture" id=14]
+[ext_resource path="res://Actors/Sword Jab 3.gd" type="Script" id=14]
 [ext_resource path="res://Actors/Light Jab 2.gd" type="Script" id=15]
 [ext_resource path="res://Actors/Light Jab 1.gd" type="Script" id=16]
 [ext_resource path="res://Actors/Light Jab 1 Charge.gd" type="Script" id=17]
 [ext_resource path="res://Actors/Light Jab 1 Release.gd" type="Script" id=18]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 13.8518 )
+[ext_resource path="res://Art/Characters/adventurer-v1.5-Sheet.png" type="Texture" id=19]
 
 [sub_resource type="Animation" id=2]
 resource_name = "Dragon Punch"
@@ -51,7 +49,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprite:frame")
+tracks/2/path = NodePath("sprite:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -65,68 +63,28 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Idle"
-length = 0.0166667
+length = 0.666668
+loop = true
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.266667, 0.466667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 0, 1, 2, 3 ]
 }
 
 [sub_resource type="Animation" id=4]
-resource_name = "Light Jab 1"
-length = 0.666668
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ 4, 5 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("StateMachine/Light Jab 1:attack_buffer_ready")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("StateMachine/Light Jab 1:return_to_idle")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.666667 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-
-[sub_resource type="Animation" id=7]
 resource_name = "Light Jab 1 Charge"
 length = 0.0166667
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -162,12 +120,12 @@ tracks/2/keys = {
 "values": [  ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 resource_name = "Light Jab 1 Release"
 length = 0.666667
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -203,76 +161,130 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Light Jab 2"
-length = 0.666668
+[sub_resource type="Animation" id=6]
+length = 0.416667
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.133333, 0.183333, 0.233333, 0.283333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 6, 7 ]
+"values": [ 43, 44, 45, 46, 47 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("StateMachine/Light Jab 2:return_to_idle")
+tracks/1/path = NodePath("StateMachine/Sword Jab 1:attack_buffer_ready")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.666668 ),
+"times": PoolRealArray( 0, 0.233333 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("StateMachine/Light Jab 2:attack_buffer_ready")
+tracks/2/path = NodePath("StateMachine/Sword Jab 1:return_to_idle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.416667 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Walking"
-length = 0.5
-loop = true
-step = 0.05
+[sub_resource type="Animation" id=7]
+length = 0.666668
+step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25 ),
+"times": PoolRealArray( 0, 0.133333, 0.183333, 0.233333, 0.283333, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 48, 49, 50, 51, 52, 53 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StateMachine/Sword Jab 2:return_to_idle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.366667 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 1, 2 ]
+"values": [ false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("StateMachine/Sword Jab 2:attack_buffer_ready")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.283333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "SwordJab3"
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.133333, 0.183333, 0.233333, 0.283333, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 53, 54, 55, 56, 57, 58 ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.9
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 148, 149, 150, 151, 152, 153 ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.70362, 13.8518 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 5 )
 
-[node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 2 )
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 14 )
-hframes = 22
-frame = 16
+[node name="sprite" type="Sprite" parent="."]
+texture = ExtResource( 19 )
+vframes = 13
+hframes = 14
+frame = 1
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -301,12 +313,14 @@ script = ExtResource( 13 )
 [node name="Dragon Punch" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
 
-[node name="Light Jab 1" type="Node" parent="StateMachine"]
+[node name="Sword Jab 1" type="Node" parent="StateMachine"]
 script = ExtResource( 16 )
-attack_buffer_ready = true
 
-[node name="Light Jab 2" type="Node" parent="StateMachine"]
+[node name="Sword Jab 2" type="Node" parent="StateMachine"]
 script = ExtResource( 15 )
+
+[node name="Sword Jab 3" type="Node" parent="StateMachine"]
+script = ExtResource( 14 )
 
 [node name="Light Jab 1 Charge" type="Node" parent="StateMachine"]
 script = ExtResource( 17 )
@@ -319,11 +333,12 @@ attack_buffer_ready = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Dragon Punch" = SubResource( 2 )
 anims/Idle = SubResource( 3 )
-"anims/Light Jab 1" = SubResource( 4 )
-"anims/Light Jab 1 Charge" = SubResource( 7 )
-"anims/Light Jab 1 Release" = SubResource( 8 )
-"anims/Light Jab 2" = SubResource( 5 )
-anims/Walking = SubResource( 6 )
+"anims/Light Jab 1 Charge" = SubResource( 4 )
+"anims/Light Jab 1 Release" = SubResource( 5 )
+anims/SwordJab1 = SubResource( 6 )
+anims/SwordJab2 = SubResource( 7 )
+anims/SwordJab3 = SubResource( 8 )
+anims/Walking = SubResource( 9 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
@@ -333,10 +348,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -198.0
-margin_top = -149.0
-margin_right = 198.0
-margin_bottom = 149.0
+margin_left = -196.068
+margin_top = -149.595
+margin_right = 199.932
+margin_bottom = 148.405
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -368,3 +383,7 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+shape = SubResource( 1 )

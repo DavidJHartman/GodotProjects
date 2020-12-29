@@ -2,7 +2,7 @@
 class_name Player
 extends KinematicBody2D
 
-const GRAVITY = 30
+const GRAVITY = 25
 
 #public variables
 var initial_state : String

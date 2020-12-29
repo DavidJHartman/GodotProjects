@@ -63,8 +63,9 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	input_handling()
 	_current_state.update()
+	input_handling()
+	
 
 func _unhandled_input(event):
 	if event.is_pressed() and !event.is_echo():
@@ -79,10 +80,10 @@ func input_handling():
 		_motion_input_buffer.append("Attack")
 		_execute_motion_input = true
 	
-	if Input.is_action_pressed("move_up"):
+	if Input.is_action_just_pressed("move_up"):
 		motion_direction.y += 1
 	
-	if Input.is_action_pressed("move_down"):
+	if Input.is_action_just_pressed("move_down"):
 		motion_direction.y -= 1
 	
 	if Input.is_action_just_pressed("move_right"):

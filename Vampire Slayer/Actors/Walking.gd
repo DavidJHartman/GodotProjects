@@ -25,11 +25,16 @@ func _ready():
 	pass 
 
 func update():
+	print("start ",player.scale.x)
 	if Input.is_action_pressed("move_left"):
 		player.deltav.x -= player.walking_speed
+		player.sprite.scale.x = -1
 	if Input.is_action_pressed("move_right"):
 		player.deltav.x += player.walking_speed
-	
+		player.sprite.scale.x = -1
+	if player.animation_player.current_animation != _state_name:
+		player.animation_player.play(_state_name)
+	print("Scale should be -1", player.scale.x)
 	if abs(player.velocity.x + player.deltav.x) < player.max_speed:
 		player.velocity+=player.deltav
 	else:
@@ -44,7 +49,7 @@ func update():
 			player.velocity.x = 0
 	player.deltav.y = player.GRAVITY
 	
-	player.move_and_slide_with_snap( player.velocity, Vector2(0,30), Vector2(0,-1) )
+	player.move_and_slide_with_snap( player.velocity, Vector2(0,8), Vector2(0,-1) )
 	player.deltav = Vector2.ZERO
 	
 	# State Handling
@@ -65,6 +70,7 @@ func update():
 			state.update_state("Dragon Punch")
 			motion_input = ""
 			pass
+	
 	if !player.is_on_floor():
 		state.update_state("Falling")
 		pass

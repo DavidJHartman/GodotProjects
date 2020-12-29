@@ -40,11 +40,6 @@ _global_script_classes=[ {
 "path": "res://Actors/Jump.gd"
 }, {
 "base": "Node",
-"class": "LightJab1",
-"language": "GDScript",
-"path": "res://Actors/Light Jab 1.gd"
-}, {
-"base": "Node",
 "class": "LightJab1Charge",
 "language": "GDScript",
 "path": "res://Actors/Light Jab 1 Charge.gd"
@@ -53,11 +48,6 @@ _global_script_classes=[ {
 "class": "LightJab1Release",
 "language": "GDScript",
 "path": "res://Actors/Light Jab 1 Release.gd"
-}, {
-"base": "Node",
-"class": "LightJab2",
-"language": "GDScript",
-"path": "res://Actors/Light Jab 2.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
@@ -68,6 +58,21 @@ _global_script_classes=[ {
 "class": "State",
 "language": "GDScript",
 "path": "res://StateMachine/State.gd"
+}, {
+"base": "Node",
+"class": "SwordJab1",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 1.gd"
+}, {
+"base": "Node",
+"class": "SwordJab2",
+"language": "GDScript",
+"path": "res://Actors/Light Jab 2.gd"
+}, {
+"base": "Node",
+"class": "SwordJab3",
+"language": "GDScript",
+"path": "res://Actors/Sword Jab 3.gd"
 }, {
 "base": "Node",
 "class": "Walking",
@@ -81,12 +86,13 @@ _global_script_class_icons={
 "Falling": "",
 "Idle": "",
 "Jump": "",
-"LightJab1": "",
 "LightJab1Charge": "",
 "LightJab1Release": "",
-"LightJab2": "",
 "Player": "",
 "State": "",
+"SwordJab1": "",
+"SwordJab2": "",
+"SwordJab3": "",
 "Walking": ""
 }
 

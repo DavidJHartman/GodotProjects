@@ -17,7 +17,7 @@ var _state_name = "Idle"
 
 #onready variables
 onready var state = get_parent()
-onready var player = state.get_parent()
+onready var player = state.player()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

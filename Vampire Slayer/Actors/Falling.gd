@@ -14,7 +14,7 @@ var motion_input : String
 
 #private variables
 var _state_name = "Falling"
-var _coyote_time = 7
+var _coyote_time = 14
 var _fall_timer = 0
 
 #onready variables
